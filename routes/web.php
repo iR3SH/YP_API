@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
+ * GET Routes
+ */
 Route::get('/', function () {
     return view('welcome');
 });
+
+/*
+ * POST Routes
+ */
