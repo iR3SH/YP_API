@@ -16,7 +16,7 @@ class CreateBannedUsersTable extends Migration
         Schema::create('banned_users', function (Blueprint $table) {
             $table->id();
             $table->timestamp('timestamp');
-            $table->string('Reason');
+            $table->string('reason');
             $table->integer('idUser');
             $table->integer('idAdmin');
             $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');

@@ -16,9 +16,9 @@ class CreateAdminUsersTable extends Migration
         Schema::create('admin_users', function (Blueprint $table) {
             $table->id();
             $table->integer('idUser');
-            $table->integer('GrantedBy');
+            $table->integer('grantedBy');
             $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
-            $table->foreign('GrantedBy')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('grantedBy')->references('id')->on('users')->onDelete('NO ACTION');
             $table->timestamps();
         });
     }

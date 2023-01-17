@@ -19,7 +19,7 @@ class CreateBuylogsTable extends Migration
             $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
             $table->integer('idSubscription');
             $table->foreign('idSubscription')->references('id')->on('subscriptions')->onDelete('NO ACTION');
-            $table->decimal('Cost');
+            $table->decimal('cost');
             $table->timestamps();
         });
     }

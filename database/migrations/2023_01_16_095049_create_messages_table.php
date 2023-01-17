@@ -17,7 +17,7 @@ class CreateMessagesTable extends Migration
             $table->id();
             $table->integer('idConversation');
             $table->foreign('idConversation')->references('id')->on('conversations')->onDelete('NO ACTION');
-            $table->string('Content');
+            $table->string('content');
             $table->integer('idUser');
             $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
             $table->timestamps();
