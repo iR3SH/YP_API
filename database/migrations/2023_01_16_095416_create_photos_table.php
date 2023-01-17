@@ -16,9 +16,9 @@ class CreatePhotosTable extends Migration
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
             $table->string('fileName')->unique();
-            $table->string('hash');
+            $table->string('hash')->nullable();
             $table->decimal('length');
-            $table->integer('position');
+            $table->integer('position')->default(0);
             $table->integer('idUser');
             $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
             $table->timestamps();

@@ -43,7 +43,12 @@ class UserController extends Controller
     {
         $request->validate([
             'email' => 'required',
-            'Name' => 'required',
+            'name' => 'required',
+            'password' => 'required',
+            'lastName' => 'required',
+            'phoneNumber' => 'required',
+            'gender' => 'required',
+            'city' => 'required',
         ]);
         $user = User::create($request->all());
         return [

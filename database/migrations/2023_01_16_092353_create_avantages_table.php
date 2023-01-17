@@ -15,9 +15,9 @@ class CreateAvantagesTable extends Migration
     {
         Schema::create('avantages', function (Blueprint $table) {
             $table->id();
-            $table->boolean('canUseExtraFilter');
-            $table->boolean('canSeeWhoLiked');
-            $table->boolean('canReceiveDailyExtraLike');
+            $table->boolean('canUseExtraFilter')->default(false);
+            $table->boolean('canSeeWhoLiked')->default(false);
+            $table->boolean('canReceiveDailyExtraLike')->default(false);
             $table->timestamps();
         });
     }

@@ -18,7 +18,7 @@ class CreateSubscriptionsTable extends Migration
             $table->integer('idUser');
             $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
             $table->timestamp('timestamp');
-            $table->dateTime('nextCost');
+            $table->dateTime('nextCost')->nullable();
             $table->integer('idAvantage');
             $table->foreign('idAvantage')->references('id')->on('avantages')->onDelete('NO ACTION');
             $table->timestamps();
