@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersPreferencesController;
 use App\Models\BannedUsers;
 use App\Models\BlockedUsers;
+use App\Models\BuyLogs;
 use App\Models\Conversations;
 use App\Models\Likes;
 use App\Models\Messages;
@@ -31,6 +32,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('adminUsers', AdminUsersController::class);
 Route::resource('bannedUsers', BannedUsers::class);
 Route::resource('blockedUsers', BlockedUsers::class);
+Route::resource('buyLogs', BuyLogs::class);
 Route::resource('conversations', Conversations::class);
 Route::resource('likes', Likes::class);
 Route::resource('messages', Messages::class);
