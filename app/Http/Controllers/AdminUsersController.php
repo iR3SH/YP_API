@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\AdminUsers;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\DB;
 
-class UserController extends Controller
+class AdminUsersController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +14,7 @@ class UserController extends Controller
      */
     public function index() : array
     {
-        $user = User::latest()->paginate(10);
+        $user = AdminUsers::latest()->paginate(10);
         return [
             "status" => 1,
             "data" => $user
@@ -42,15 +40,10 @@ class UserController extends Controller
     public function store(Request $request) : array
     {
         $request->validate([
-            'email' => 'required',
-            'name' => 'required',
-            'password' => 'required',
-            'lastName' => 'required',
-            'phoneNumber' => 'required',
-            'gender' => 'required',
-            'city' => 'required',
+            'idUser' => 'required',
+            'grantedBy' => 'required',
         ]);
-        $user = User::create($request->all());
+        $user = AdminUsers::create($request->all());
         return [
             'status' => 1,
             "data" => $user,
@@ -60,10 +53,10 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param User $user
+     * @param AdminUsers $user
      * @return array
      */
-    public function show(User $user) : array
+    public function show(AdminUsers $user) : array
     {
         return [
             "status" => 1,
@@ -74,10 +67,10 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param User $user
+     * @param AdminUsers $user
      * @return Response
      */
-    public function edit(User $user)
+    public function edit(AdminUsers $user)
     {
         //
     }
@@ -86,37 +79,45 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param User $user
+     * @param AdminUsers $user
      * @return array
      */
-    public function update(Request $request, User $user) : array
+    public function update(Request $request, AdminUsers $user) : array
     {
         $request->validate([
-            'email' => 'required',
-            'phoneNumber' => 'required',
-            'password' => 'required',
+            'idUser' => 'required',
+            'grantedBy' => 'required',
         ]);
-        $user->update($request->all());
-        return [
-          "status" => 1,
-          "data" => $user,
-           "msg" => "User updated successfully"
-        ];
+        if(AdminUsers::where('idUser', $request->get('grantedBy')) != null)
+        {
+            $user->update($request->all());
+            return [
+                "status" => 1,
+                "data" => $user,
+                "msg" => "Rights updated successfully"
+            ];
+        }
+        else
+        {
+            return [
+                "status" => 500,
+            ];
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param User $user
+     * @param AdminUsers $user
      * @return array
      */
-    public function destroy(User $user): array
+    public function destroy(AdminUsers $user): array
     {
         $user->delete();
         return [
-          "status" => 1,
-          "data" => $user,
-          "msg" => "User deleted successfully"
+            "status" => 1,
+            "data" => $user,
+            "msg" => "Rights deleted successfully"
         ];
     }
 }
