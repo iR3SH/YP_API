@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\BuyLogs;
+use App\Models\Subscriptions;
 use Illuminate\Http\Request;
 
-class BuyLogsController extends Controller
+class SubscriptionsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,11 +14,11 @@ class BuyLogsController extends Controller
      */
     public function index(): array
     {
-        $buyLogs = BuyLogs::lastest()->paginate(10);
+        $Subscriptions = Subscriptions::lastest()->paginate(10);
 
         return [
             "status" => 1,
-            "data" => $buyLogs,
+            "data" => $Subscriptions,
         ];
     }
 
@@ -42,39 +42,40 @@ class BuyLogsController extends Controller
     {
         $request->validate([
             "idUser" => 'required',
-            "idSubscription" => 'required',
-            "cost" => 'required',
+            "timestamp" => 'required',
+            "nextCost" => 'required',
+            "idAvantage" => 'required',
         ]);
 
-        $buyLogs = BuyLogs::create($request->all());
+        $Subscriptions = Subscriptions::create($request->all());
 
         return [
             "status" => 1,
-            "data" => $buyLogs,
+            "data" => $Subscriptions,
         ];
     }
 
     /**
      * Display the specified resource.
      *
-     * @param BuyLogs $buyLogs
+     * @param Subscriptions $Subscriptions
      * @return array
      */
-    public function show(BuyLogs $buyLogs): array
+    public function show(Subscriptions $Subscriptions): array
     {
         return [
             'status' => 1,
-            'data' => $buyLogs
+            'data' => $Subscriptions
         ];
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param BuyLogs $buyLogs
+     * @param Subscriptions $Subscriptions
      * @return Response
      */
-    public function edit(BuyLogs $buyLogs)
+    public function edit(Subscriptions $Subscriptions)
     {
     }
 
@@ -82,36 +83,37 @@ class BuyLogsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param BuyLogs $buyLogs
+     * @param Subscriptions $Subscriptions
      * @return array
      */
-    public function update(Request $request, BuyLogs $buyLogs): array
+    public function update(Request $request, Subscriptions $Subscriptions): array
     {
         $request->validate([
-            "cost" => 'required',
+            "timestamp" => 'required',
+            "nextCost" => 'required',
         ]);
 
-        $buyLogs->update($request->all());
+        $Subscriptions->update($request->all());
         return [
             "status" => 1,
-            "data" => $buyLogs,
-            "msg" => "BuyLogs updated successfully"
+            "data" => $Subscriptions,
+            "msg" => "Subscriptions updated successfully"
         ];
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param BuyLogs $buyLogs
+     * @param Subscriptions $Subscriptions
      * @return array
      */
-    public function destroy(BuyLogs $buyLogs): array
+    public function destroy(Subscriptions $Subscriptions): array
     {
-        $buyLogs->delete();
+        $Subscriptions->delete();
         return [
             "status" => 1,
-            "msg" => "BuyLogs deleted successfully",
-            "data" => $buyLogs,
+            "msg" => "Subscriptions deleted successfully",
+            "data" => $Subscriptions,
         ];
     }
 }
