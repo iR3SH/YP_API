@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminUsersController;
+use App\Http\Controllers\AvantagesController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersPreferencesController;
 use App\Models\BannedUsers;
@@ -31,6 +32,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::resource('adminUsers', AdminUsersController::class);
+Route::resource('avantages', AvantagesController::class);
 Route::resource('bannedUsers', BannedUsers::class);
 Route::resource('blockedUsers', BlockedUsers::class);
 Route::resource('buyLogs', BuyLogs::class);
