@@ -101,6 +101,7 @@ class BannedUsersController extends Controller
         return [
             "status" => 1,
             "data" => $bannedUsers,
+            "msg" => "BannedUser updated successfully",
         ];
     }
 

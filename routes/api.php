@@ -5,7 +5,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersPreferencesController;
 use App\Models\BannedUsers;
 use App\Models\BlockedUsers;
+use App\Models\Likes;
 use App\Models\ReportedUsers;
+use App\Models\SuperLikes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,9 +25,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::resource('users', UserController::class);
 Route::resource('adminUsers', AdminUsersController::class);
-Route::resource('usersPreferences', UsersPreferencesController::class);
-Route::resource('reportedUsers', ReportedUsers::class);
-Route::resource('blockedUsers', BlockedUsers::class);
 Route::resource('bannedUsers', BannedUsers::class);
+Route::resource('blockedUsers', BlockedUsers::class);
+Route::resource('likes', Likes::class);
+Route::resource('reportedUsers', ReportedUsers::class);
+Route::resource('superLikes', SuperLikes::class);
+Route::resource('users', UserController::class);
+Route::resource('usersPreferences', UsersPreferencesController::class);
