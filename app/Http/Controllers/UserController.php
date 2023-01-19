@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Testing\Fluent\Concerns\Has;
+use Mockery\Matcher\HasKey;
 
 class UserController extends Controller
 {
@@ -42,18 +46,22 @@ class UserController extends Controller
     public function store(Request $request) : array
     {
         $request->validate([
-            'email' => 'required',
+            'email' => 'required|unique:users',
             'name' => 'required',
             'password' => 'required',
             'lastName' => 'required',
-            'phoneNumber' => 'required',
+            'phoneNumber' => 'required|unique:users',
             'gender' => 'required',
             'city' => 'required',
         ]);
-        $user = User::create($request->all());
+        $inputs = $request->all();
+        $inputs['password'] = Hash::make($request->get('password'));
+        $user = User::create($inputs);
+        $token =  $user->createToken('MyApp')->plainTextToken;
         return [
             'status' => 1,
             "data" => $user,
+            "token" => $token,
         ];
     }
 
@@ -92,11 +100,15 @@ class UserController extends Controller
     public function update(Request $request, User $user) : array
     {
         $request->validate([
-            'email' => 'required',
-            'phoneNumber' => 'required',
+            'email' => 'required|unique:users',
+            'phoneNumber' => 'required|unique:users',
             'password' => 'required',
         ]);
-        $user->update($request->all());
+        $inputs = $request->all();
+        if(!Hash::check($user->getAttribute('password'), Hash::make($request->get('password')))) {
+            $inputs['password'] = Hash::make($request->get('password'));
+        }
+        $user->update($inputs);
         return [
           "status" => 1,
           "data" => $user,
@@ -118,5 +130,47 @@ class UserController extends Controller
           "data" => $user,
           "msg" => "User deleted successfully"
         ];
+    }
+
+    /**
+     * success response method.
+     *
+     * @param $result
+     * @param $message
+     * @return JsonResponse
+     */
+    public function sendResponse($result, $message): JsonResponse
+    {
+        $response = [
+            'success' => true,
+            'data'    => $result,
+            'message' => $message,
+        ];
+        return response()->json($response, 200);
+    }
+
+
+    /**
+     *
+     * return error response.
+     *
+     * @param $error
+     * @param array $errorMessages
+     * @param int $code
+     * @return JsonResponse
+     */
+
+    public function sendError($error, array $errorMessages = [], int $code = 404): JsonResponse
+    {
+        $response = [
+            'success' => false,
+            'message' => $error,
+        ];
+
+        if(!empty($errorMessages)){
+            $response['data'] = $errorMessages;
+        }
+
+        return response()->json($response, $code);
     }
 }

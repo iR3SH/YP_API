@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminUsersController;
 use App\Http\Controllers\AvantagesController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UsersPreferencesController;
 use App\Models\BannedUsers;
@@ -27,21 +28,24 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::controller(LoginController::class)->group(function(){
+    Route::post('register', 'register');
+    Route::post('login', 'login');
 });
-Route::resource('adminUsers', AdminUsersController::class);
-Route::resource('avantages', AvantagesController::class);
-Route::resource('bannedUsers', BannedUsers::class);
-Route::resource('blockedUsers', BlockedUsers::class);
-Route::resource('buyLogs', BuyLogs::class);
-Route::resource('conversations', Conversations::class);
-Route::resource('likes', Likes::class);
-Route::resource('messages', Messages::class);
-Route::resource('photos', Photos::class);
-Route::resource('reportedUsers', ReportedUsers::class);
-Route::resource('subscriptions', Subscriptions::class);
-Route::resource('superLikes', SuperLikes::class);
-Route::resource('users', UserController::class);
-Route::resource('usersPreferences', UsersPreferencesController::class);
+
+Route::middleware('auth:sanctum')->group( function () {
+    Route::resource('adminUsers', AdminUsersController::class);
+    Route::resource('avantages', AvantagesController::class);
+    Route::resource('bannedUsers', BannedUsers::class);
+    Route::resource('blockedUsers', BlockedUsers::class);
+    Route::resource('buyLogs', BuyLogs::class);
+    Route::resource('conversations', Conversations::class);
+    Route::resource('likes', Likes::class);
+    Route::resource('messages', Messages::class);
+    Route::resource('photos', Photos::class);
+    Route::resource('reportedUsers', ReportedUsers::class);
+    Route::resource('subscriptions', Subscriptions::class);
+    Route::resource('superLikes', SuperLikes::class);
+    Route::resource('users', UserController::class);
+    Route::resource('usersPreferences', UsersPreferencesController::class);
+});
