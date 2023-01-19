@@ -26,6 +26,7 @@ class User extends Authenticatable
         'phoneNumber',
         'city',
         'verified',
+        'description',
     ];
 
     /**
