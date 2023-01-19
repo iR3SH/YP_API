@@ -9,6 +9,7 @@ use App\Models\BannedUsers;
 use App\Models\BlockedUsers;
 use App\Models\BuyLogs;
 use App\Models\Conversations;
+use App\Models\Dislikes;
 use App\Models\Likes;
 use App\Models\Messages;
 use App\Models\Photos;
@@ -40,6 +41,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::resource('blockedUsers', BlockedUsers::class);
     Route::resource('buyLogs', BuyLogs::class);
     Route::resource('conversations', Conversations::class);
+    Route::resource('dislikes', Dislikes::class);
     Route::resource('likes', Likes::class);
     Route::resource('messages', Messages::class);
     Route::resource('photos', Photos::class);
