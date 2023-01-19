@@ -22,8 +22,8 @@ class CreateUsersPreferencesTable extends Migration
             $table->string('moviePref')->nullable();
             $table->string('genderPref')->nullable();
             $table->integer('distancePref')->default(0);
-            $table->integer('userId');
-            $table->foreign('userId')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->integer('idUser');
+            $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
             $table->timestamps();
         });
     }
