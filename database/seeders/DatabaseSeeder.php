@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
                 'languages' => $faker->randomElement(["Français" , "English", "Deutsch", "Suisse"]),
                 'genderPref' => $faker->randomElement(["Mâle" , "Female"]),
                 'distancePref' => random_int(0, 100),
-                'userId' => $user->getAttribute('id'),
+                'idUser' => $user->getAttribute('id'),
             ];
 
             UsersPreferences::create($data);
