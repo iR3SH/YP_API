@@ -18,18 +18,42 @@ class DatabaseSeeder extends Seeder
      * @return void
      * @throws Exception
      */
+
+    /*
+     * SQL Sentences to Keep Data
+        SELECT
+            users.`name`,
+            users.lastName,
+            users.email,
+            users.`password`,
+            users.gender,
+            users.phoneNumber,
+            users.city,
+            users_preferences.activities,
+            users_preferences.musicStyles,
+            users_preferences.redFlags,
+            users_preferences.languages,
+            users_preferences.moviePref,
+            users_preferences.genderPref,
+            users_preferences.distancePref
+        FROM
+            users,
+            users_preferences
+        WHERE
+            users_preferences.idUser = users.id
+     */
     public function run()
     {
         $faker = Faker::create();
         for($i = 0; $i < 1000; $i++)
         {
-            $gender = $faker->randomElement(['Male', 'Female']);
+            $gender = $faker->randomElement(['Male', 'Others', 'Female', 'Female', 'Female', 'Male', 'Male', 'Male', 'Male', 'Male']);
             $userData = [
                 "email" => $faker->email,
                 'name' => $faker->name($gender),
                 'lastName' => $faker->lastName,
                 'password' => Hash::make($faker->password),
-                'gender' => random_int(1, 2) == 1 ? $gender : "Others",
+                'gender' => $gender,
                 'phoneNumber' => $faker->phoneNumber,
                 'city' => $faker->randomElement(["Mulhouse" , "Strasbourg"]),
             ];
@@ -40,7 +64,7 @@ class DatabaseSeeder extends Seeder
         {
 
             $data = [
-                'activities' => $faker->randomElement(["Distanciel" , "Présentiel"]),
+                'activities' => $faker->randomElement(["Distanciel" , "Présentiel", "Présentiel", "Présentiel"]),
                 'musicStyles' => $faker->randomElement(["Rock" , "Pop", "Rap", "Jazz", "Classic"]),
                 'redFlags' => $faker->randomElement(["Fumeurs" , "Vegan", "Meet Eater", "Gamers", "Feminist"]),
                 'languages' => $faker->randomElement(["Français" , "English", "Deutsch", "Suisse"]),
