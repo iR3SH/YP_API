@@ -45,9 +45,10 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        for($i = 0; $i < 1000; $i++)
+        for($i = 0; $i < 100; $i++)
         {
-            $gender = $faker->randomElement(['Male', 'Others', 'Female', 'Female', 'Female', 'Male', 'Male', 'Male', 'Male', 'Male']);
+            //$gender = $faker->randomElement(['Male', 'Others', 'Female', 'Female', 'Female', 'Male', 'Male', 'Male', 'Male', 'Male']);
+            $gender = $faker->randomElement(['Others']);
             $userData = [
                 "email" => $faker->email,
                 'name' => $faker->name($gender),
@@ -56,6 +57,7 @@ class DatabaseSeeder extends Seeder
                 'gender' => $gender,
                 'phoneNumber' => $faker->phoneNumber,
                 'city' => $faker->randomElement(["Mulhouse" , "Strasbourg"]),
+                'description' => ' ',
             ];
             User::create($userData);
         }
