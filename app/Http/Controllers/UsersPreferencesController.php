@@ -13,7 +13,7 @@ class UsersPreferencesController extends Controller
      *
      * @return array
      */
-    public function index()
+    public function index() // Avoir tout les UsersPreferences
     {
         $preferencies = UsersPreferences::latest()->paginate(10);
         return [
@@ -38,7 +38,7 @@ class UsersPreferencesController extends Controller
      * @param  Request  $request
      * @return array
      */
-    public function store(Request $request)
+    public function store(Request $request)// Créer un UsersPreferences
     {
         $request->validate([
             "activities" => 'string',
@@ -94,11 +94,10 @@ class UsersPreferencesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param  UsersPreferences  $usersPreferences
+     * @param Request $request
      * @return array
      */
-    public function update(Request $request, UsersPreferences $usersPreferences)
+    public function update(Request $request)// Mettre à jour un UsersPreferences
     {
         $request->validate([
             "activities" => 'string',
@@ -132,11 +131,28 @@ class UsersPreferencesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  UsersPreferences  $usersPreferences
-     * @return void
+     * @param Request $request
+     * @return array
      */
-    public function destroy(UsersPreferences $usersPreferences)
+    public function destroy(Request $request) // Delete un UsersPreferences
     {
-        $usersPreferences->delete();
+        $request->validate([
+            "id" => 'required',
+
+        ]);
+        $usersPreferences = UsersPreferences::find($request->get('id'));
+
+        if($usersPreferences != null) {
+            $usersPreferences->delete();
+            return [
+                "status" => 200,
+            ];
+        }
+        else
+        {
+            return [
+                "status" => 403,
+            ];
+        }
     }
 }
