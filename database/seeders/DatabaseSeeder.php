@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Avantages;
+use App\Models\Subscriptions;
 use App\Models\User;
 use App\Models\UsersPreferences;
 use Exception;
@@ -44,16 +46,18 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
-        for($i = 0; $i < 100; $i++)
+        $faker = Faker::create('fr_FR');
+
+        for($i = 0; $i < 500; $i++)
         {
-            //$gender = $faker->randomElement(['Male', 'Others', 'Female', 'Female', 'Female', 'Male', 'Male', 'Male', 'Male', 'Male']);
-            $gender = $faker->randomElement(['Others']);
+            $gender = $faker->randomElement(['Homme', 'Autres', 'Femme', 'Femme', 'Femme', 'Homme', 'Homme', 'Homme', 'Homme', 'Homme']);
+            //$gender = $faker->randomElement(['Autres']);
             $userData = [
                 "email" => $faker->email,
                 'name' => $faker->name($gender),
                 'lastName' => $faker->lastName,
                 'password' => Hash::make($faker->password),
+                'age' => random_int(18, 35),
                 'gender' => $gender,
                 'phoneNumber' => $faker->phoneNumber,
                 'city' => $faker->randomElement(["Mulhouse" , "Strasbourg"]),
@@ -70,12 +74,20 @@ class DatabaseSeeder extends Seeder
                 'musicStyles' => $faker->randomElement(["Rock" , "Pop", "Rap", "Jazz", "Classic"]),
                 'redFlags' => $faker->randomElement(["Fumeurs" , "Vegan", "Meet Eater", "Gamers", "Feminist"]),
                 'languages' => $faker->randomElement(["Français" , "English", "Deutsch", "Suisse"]),
-                'genderPref' => $faker->randomElement(["Mâle" , "Female"]),
+                'genderPref' => $faker->randomElement(["Homme" , "Femme"]),
                 'distancePref' => random_int(0, 100),
                 'idUser' => $user->getAttribute('id'),
             ];
 
             UsersPreferences::create($data);
+            $avantage = Avantages::where('id', random_int(1,4))->get();
+            $data = [
+                'idUser'=> $user->getAttribute('id'),
+                'timestamp' => date("y-m-d H:i"),
+                'nextCost' => date("y-m-d H:i"),
+                'idAvantage' => $avantage->first()->getAttribute('id'),
+            ];
+            Subscriptions::create($data);
         }
     }
 }
