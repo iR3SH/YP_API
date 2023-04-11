@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Sorties extends Migration
+class CreatePlateformesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,9 @@ class Sorties extends Migration
      */
     public function up()
     {
-        Schema::create('sorties', function (Blueprint $table) {
+        Schema::create('plateformes', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -27,6 +27,6 @@ class Sorties extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sorties');
+        Schema::dropIfExists('plateformes');
     }
 }

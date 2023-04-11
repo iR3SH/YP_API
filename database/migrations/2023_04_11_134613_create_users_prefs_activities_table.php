@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Sports extends Migration
+class CreateUsersPrefsActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class Sports extends Migration
      */
     public function up()
     {
-        Schema::create('sports', function (Blueprint $table) {
+        Schema::create('users_prefs_activities', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->integer('idUserPref');
+            $table->foreign('idUserPref')->references('id')->on('users_preferences');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class Sports extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sports');
+        Schema::dropIfExists('users_prefs_activities');
     }
 }

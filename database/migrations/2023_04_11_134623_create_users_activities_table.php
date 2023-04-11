@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Plateformes extends Migration
+class CreateUsersActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ class Plateformes extends Migration
      */
     public function up()
     {
-        Schema::create('plateformes', function (Blueprint $table) {
+        Schema::create('users_activities', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->integer('idUser');
+            $table->foreign('idUser')->references('id')->on('users');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class Plateformes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('plateformes');
+        Schema::dropIfExists('users_activities');
     }
 }

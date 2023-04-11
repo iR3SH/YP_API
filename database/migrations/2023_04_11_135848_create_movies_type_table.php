@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class ActivitiesTypes extends Migration
+class CreateMoviesTypeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class ActivitiesTypes extends Migration
      */
     public function up()
     {
-        Schema::create('activities_type', function (Blueprint $table) {
+        Schema::create('movies_type', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->timestamps();
@@ -27,6 +27,6 @@ class ActivitiesTypes extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('activities_type');
+        Schema::dropIfExists('movies_type');
     }
 }
