@@ -15,7 +15,9 @@ use App\Http\Controllers\ReportedUsersController;
 use App\Http\Controllers\SubscriptionsController;
 use App\Http\Controllers\SuperLikesController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UsersActivitiesController;
 use App\Http\Controllers\UsersPreferencesController;
+use App\Http\Controllers\UsersPrefsActivitiesController;
 use App\Models\BannedUsers;
 use App\Models\BlockedUsers;
 use App\Models\BuyLogs;
@@ -44,7 +46,7 @@ Route::controller(LoginController::class)->group(function(){
     Route::post('register', 'register');
     Route::post('login', 'login');
 });
-//Route::put('photos', 'PhotosController@update')->name('photos.update');
+
 Route::middleware('auth:sanctum')->group( function () {
     Route::resource('adminUsers', AdminUsersController::class);
     Route::resource('avantages', AvantagesController::class);
@@ -60,5 +62,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::resource('subscriptions', SubscriptionsController::class);
     Route::resource('superLikes', SuperLikesController::class);
     Route::resource('users', UserController::class);
+    Route::resource('usersActivities', UsersActivitiesController::class);
     Route::resource('usersPreferences', UsersPreferencesController::class);
+    Route::resource('usersPrefsActivities', UsersPrefsActivitiesController::class);
 });
