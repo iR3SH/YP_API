@@ -13,7 +13,7 @@ class CreateSuperlikesTable extends Migration
      */
     public function up()
     {
-        Schema::create('superlikes', function (Blueprint $table) {
+        Schema::create('super_likes', function (Blueprint $table) {
             $table->id();
             $table->integer('idUserWhoLiked');
             $table->foreign('idUserWhoLiked')->references('id')->on('users')->onDelete('NO ACTION');
@@ -30,6 +30,6 @@ class CreateSuperlikesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('superlikes');
+        Schema::dropIfExists('super_likes');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreatePhotosTable extends Migration
+class CreateActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreatePhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('photos', function (Blueprint $table) {
+        Schema::create('activities', function (Blueprint $table) {
             $table->id();
-            $table->string('fileName')->unique();
-            $table->integer('position')->default(1);
-            $table->integer('idUser');
-            $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->string("name")->default("");
+            $table->string("type")->default("");
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreatePhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('photos');
+        Schema::dropIfExists('activities');
     }
 }

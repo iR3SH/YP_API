@@ -27,7 +27,7 @@ class LoginController extends UserController
         }
         else
         {
-            return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
+            return $this->sendError('Not Found.', ['error'=>'User not found'], 401);
         }
     }
 
