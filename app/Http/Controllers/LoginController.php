@@ -21,6 +21,7 @@ class LoginController extends UserController
             $user = Auth::user();
             $success['token'] =  $user->createToken('ApiToken', ['server:update'])->plainTextToken;
             $success['name'] =  $user->name;
+            $success['id'] =  $user->id;
 
             return $this->sendResponse($success, 'User login successfully.');
 
