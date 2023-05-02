@@ -11,23 +11,50 @@ class PhotosController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return array
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function index(): array
+    /**
+     * @OA\Get(
+     *      path="/api/photos",
+     *      operationId="indexPhotos",
+     *      tags={"Photos"},
+     *      summary="Get list of Photos from One User",
+     *      description="Returns list of Photos from One User",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idUser",
+     *         in="query",
+     *         description="id of the User",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns list of Photos from One User
+     */
+    public function index(Request $request): JsonResponse
     {
-        $photos = Photos::all();
+        $request->validate([
+            'idUser' => 'required'
+        ]);
+        $photos = Photos::where('idUser', $request->get('idUser'));
 
-        return [
-            "status" => 1,
-            "data" => $photos,
-        ];
+        return $this->sendResponse($photos, "User photos founded");
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return Response
+     *
      */
     public function create()
     {
@@ -39,6 +66,46 @@ class PhotosController extends Controller
      *
      * @param  Request  $request
      * @return JsonResponse
+     */
+    /**
+     * @OA\Post(
+     *      path="/api/photos",
+     *      operationId="storePhotos",
+     *      tags={"Photos"},
+     *      summary="Get list of Photos from One User",
+     *      description="Returns list of Photos from One User",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="multipart/form-data",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     description="file to upload",
+     *                     property="image",
+     *                     type="file",
+     *                ),
+     *                 @OA\Property(
+     *                     description="Id of the User",
+     *                     property="idUser",
+     *                     type="integer",
+     *                ),
+     *                 required={"image"}
+     *             )
+     *         )
+     *     ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns list of Photos from One User
      */
     public function store(Request $request): JsonResponse
     {
@@ -104,35 +171,49 @@ class PhotosController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Photos $photos
-     * @return array
+     * @param Photos $photo
+     * @return JsonResponse
      */
-    public function show(Request $request)
+    /**
+     * @OA\Get(
+     *      path="/api/photos/{id}",
+     *      operationId="showPhotos",
+     *      tags={"Photos"},
+     *      summary="Get list of Photos from One User",
+     *      description="Returns list of Photos from One User",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id from the Photo",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the Photo from One User
+     */
+    public function show(Photos $photo) : JsonResponse
     {
-        $request->validate([
-            'id' => 'required',
-        ]);
-
-        $photos = Photos::where('id', $request->get('id'))->get()[0];
-        return [
-            'status' => 1,
-            'data' => $photos
-        ];
+        return $this->sendResponse($photo, "Photo found");
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Photos $photos
+     * @param Photos $photo
      * @return array
      */
-    public function edit(Photos $photos): array
+    public function edit(Request $request, Photos $photo): array
     {
-        return [
-            "status" => 1,
-            "msg" => "Photo deleted successfully",
-            "data" => $photos,
-        ];
     }
 
     /**
@@ -141,6 +222,39 @@ class PhotosController extends Controller
      * @param Request $request
      * @param Photos $photo
      * @return JsonResponse
+     */
+    /**
+     * @OA\Patch(
+     *      path="/api/photos/{id}",
+     *      operationId="updatePhotos",
+     *      tags={"Photos"},
+     *      summary="Get list of Photos from One User",
+     *      description="Returns list of Photos from One User",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id from the Photo",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="position",
+     *         in="query",
+     *         description="position from the Photo",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the updated Photo
      */
     public function update(Request $request, Photos $photo)
     {
@@ -151,22 +265,45 @@ class PhotosController extends Controller
         $photo->position = $request->get('position');
         $photo->save();
 
-        return $this->sendResponse("Success", 'Pictures pos changed successfully.');
+        return $this->sendResponse($photo, 'Pictures pos changed successfully.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Photos $photos
-     * @return array
+     * @param Photos $photo
+     * @return JsonResponse
      */
-    public function destroy(Photos $photos): array
+    /**
+     * @OA\Delete(
+     *      path="/api/photos/{id}",
+     *      operationId="destroyPhotos",
+     *      tags={"Photos"},
+     *      summary="Delete the photo",
+     *      description="Returns the deleted Photos from One User",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id from the Photo",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the deleted Photos from One User
+     */
+    public function destroy(Photos $photo): JsonResponse
     {
-        $photos->delete();
-        return [
-            "status" => 1,
-            "msg" => "Photo deleted successfully",
-            "data" => $photos,
-        ];
+        $photo->delete();
+        return $this->sendResponse($photo, "Photo deleted successfully");
     }
 }

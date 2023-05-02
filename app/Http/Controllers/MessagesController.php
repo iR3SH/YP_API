@@ -2,24 +2,96 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Conversations;
 use App\Models\Messages;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class MessagesController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return array
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function index(): array
+    /**
+     * @OA\Get(
+     *      path="/api/messages",
+     *      operationId="indexMessages",
+     *      tags={"Messages"},
+     *      summary="Get list of Messages from One Conversation",
+     *      description="Returns list of Messages from One Conversation",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idUser",
+     *         in="query",
+     *         description="id of the User who has conversation",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idConversation",
+     *         in="query",
+     *         description="id of the conversation",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the list of message from one User and one conversation
+     */
+    public function index(Request $request): JsonResponse
     {
-        $messages = Messages::lastest()->paginate(10);
+        $request->validate([
+            'idUser' => 'nullable',
+            'idConversation' => 'nullable'
+        ]);
+        $messages = null;
+        $user = null;
+        $conversation = null;
 
-        return [
-            "status" => 1,
-            "data" => $messages,
-        ];
+        if($request->get('idUser') != null){
+            $user = User::where('id', $request->get('idUser'))->get();
+            if(count($user) == 0) {
+                return $this->sendError("The specified user wasn't found");
+            }
+        }
+
+        if($request->get('idConversation') != null){
+            $conversation = Conversations::where('id', $request->get('idConversation'))->get();
+            if(count($conversation) == 0){
+                return $this->sendError("The specified conversation wasn't found");
+            }
+        }
+
+        if($user != null && $conversation != null){
+            $messages = Messages::where('idUser', $user->id)->where('idConversation', $conversation->id)->get();
+            if(count($messages) == 0) {
+                $this->sendError("Message wasn't found for the specified conversation and User");
+            }
+        }
+        else if($user != null && $conversation == null){
+            $messages = Messages::where('idUser', $user->id)->get();
+            if(count($messages) == 0) {
+                $this->sendError("Message wasn't found for the specified conversation and User");
+            }
+        }
+        else if($user == null && $conversation != null){
+            $messages = Messages::where('idConversation', $conversation->id)->get();
+            if(count($messages) == 0) {
+                $this->sendError("Message wasn't found for the specified conversation and User");
+            }
+        }
+
+        return $this->sendResponse($messages, "Message from conversation has been found");
     }
 
     /**
@@ -36,9 +108,48 @@ class MessagesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return array
+     * @return JsonResponse
      */
-    public function store(Request $request): array
+    /**
+     * @OA\Post(
+     *      path="/api/messages",
+     *      operationId="storeMessages",
+     *      tags={"Messages"},
+     *      summary="Create a new message",
+     *      description="Returns the stored message",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idUser",
+     *         in="query",
+     *         description="id of the User",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idConversation",
+     *         in="query",
+     *         description="id of the conversation",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="content",
+     *         in="query",
+     *         description="content of the message",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the stored message
+     */
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             "idConversation" => 'required',
@@ -46,35 +157,56 @@ class MessagesController extends Controller
             "idUser" => 'required',
         ]);
 
-        $messages = Messages::create($request->all());
+        $message = Messages::create($request->all());
 
-        return [
-            "status" => 1,
-            "data" => $messages,
-        ];
+        return $this->sendResponse($message, "Message has been created");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Messages $messages
-     * @return array
+     * @param Messages $message
+     * @return JsonResponse
      */
-    public function show(Messages $messages): array
+    /**
+     * @OA\Get(
+     *      path="/api/messages/{id}",
+     *      operationId="showMessages",
+     *      tags={"Messages"},
+     *      summary="Get one message by Id",
+     *      description="Returns the message",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id of the Message",
+     *         required=true,
+     *      ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     *  )
+     *
+     * Returns the message
+     */
+    public function show(Messages $message): JsonResponse
     {
-        return [
-            'status' => 1,
-            'data' => $messages
-        ];
+        return $this->sendResponse($message, "Message found");
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Messages $messages
-     * @return Response
+     * @param Messages $message
+     * @return
      */
-    public function edit(Messages $messages)
+    public function edit(Messages $message)
     {
     }
 
@@ -82,36 +214,88 @@ class MessagesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param Messages $messages
-     * @return array
+     * @param Messages $message
+     * @return JsonResponse
      */
-    public function update(Request $request, Messages $messages): array
+    /**
+     * @OA\Patch(
+     *      path="/api/messages/{id}",
+     *      operationId="updateMessages",
+     *      tags={"Messages"},
+     *      summary="Update the content of one message",
+     *      description="Returns the updated message",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id of the message",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="content",
+     *         in="query",
+     *         description="content of the message",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the updated message
+     */
+    public function update(Request $request, Messages $message): JsonResponse
     {
         $request->validate([
             "content" => 'required',
         ]);
 
-        $messages->update($request->all());
-        return [
-            "status" => 1,
-            "data" => $messages,
-            "msg" => "Messages updated successfully"
-        ];
+        $message->update($request->all());
+        return $this->sendResponse($message, "The message has been updated successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Messages $messages
-     * @return array
+     * @param Messages $message
+     * @return JsonResponse
      */
-    public function destroy(Messages $messages): array
+    /**
+     * @OA\Delete(
+     *      path="/api/messages/{id}",
+     *      operationId="destroyMessages",
+     *      tags={"Messages"},
+     *      summary="Delete one message by Id",
+     *      description="Returns the deleted message",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id of the Message",
+     *         required=true,
+     *      ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the deleted message
+     */
+    public function destroy(Messages $message): JsonResponse
     {
-        $messages->delete();
-        return [
-            "status" => 1,
-            "msg" => "Messages deleted successfully",
-            "data" => $messages,
-        ];
+        $message->delete();
+        return $this->sendResponse($message, "Message deleted successfully");
     }
 }
