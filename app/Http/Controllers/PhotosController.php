@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Photos;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 
 class PhotosController extends Controller
@@ -303,6 +304,7 @@ class PhotosController extends Controller
      */
     public function destroy(Photos $photo): JsonResponse
     {
+        File::delete(public_path().'/users/'.$photo->fileName);
         $photo->delete();
         return $this->sendResponse($photo, "Photo deleted successfully");
     }

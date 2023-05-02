@@ -2,7 +2,16 @@
 
 namespace Database\Seeders;
 
+use App\Models\Activities;
+use App\Models\ActivitiesType;
 use App\Models\Avantages;
+use App\Models\Consoles;
+use App\Models\Jeux;
+use App\Models\MoviesType;
+use App\Models\Photos;
+use App\Models\Plateformes;
+use App\Models\Sorties;
+use App\Models\Sports;
 use App\Models\Subscriptions;
 use App\Models\SuperLikes;
 use App\Models\User;
@@ -10,7 +19,6 @@ use App\Models\UsersPreferences;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Faker\Factory as Faker;
 
 class DatabaseSeeder extends Seeder
@@ -128,6 +136,696 @@ class DatabaseSeeder extends Seeder
                 ];
                 SuperLikes::create($data);
             }
+        }
+        // Plateformes
+        Plateformes::create([
+            'name' => 'Indépendant'
+        ]);
+        Plateformes::create([
+            'name' => 'Steam'
+        ]);
+        Plateformes::create([
+            'name' => 'Origine'
+        ]);
+        Plateformes::create([
+            'name' => 'GoG'
+        ]);
+        Plateformes::create([
+            'name' => 'Nintendo'
+        ]);
+        Plateformes::create([
+            'name' => 'Sega'
+        ]);
+        Plateformes::create([
+            'name' => 'EA'
+        ]);
+        Plateformes::create([
+            'name' => 'Ubisoft'
+        ]);
+        Plateformes::create([
+            'name' => 'Valve'
+        ]);
+        Plateformes::create([
+            'name' => 'Offline'
+        ]);
+
+        // Console
+        Consoles::create([
+            'name' => 'Nintendo'
+        ]);
+        Consoles::create([
+            'name' => 'Xbox'
+        ]);
+        Consoles::create([
+            'name' => 'Playstation'
+        ]);
+        Consoles::create([
+        'name' => 'PC'
+        ]);
+        Consoles::create([
+            'name' => 'Stadia'
+        ]);
+        Consoles::create([
+            'name' => 'Offline'
+        ]);
+
+        // Games
+        Jeux::create([
+            'name' => 'Dofus',
+            'idConsole' => '4',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'LoL',
+            'idConsole' => '4',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'The Witcher',
+            'idConsole' => '4',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'Minecraft',
+            'idConsole' => '4',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'Final Fantasy',
+            'idConsole' => '4',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'The Elder Scroll',
+            'idConsole' => '4',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'Rainbow Six Siege',
+            'idConsole' => '4',
+            'idPlateforme' => '2'
+        ]);
+        Jeux::create([
+            'name' => 'Among Us',
+            'idConsole' => '4',
+            'idPlateforme' => '2'
+        ]);
+        Jeux::create([
+            'name' => 'Rocket League',
+            'idConsole' => '4',
+            'idPlateforme' => '2'
+        ]);
+        Jeux::create([
+            'name' => 'FIFA',
+            'idConsole' => '3',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'GTA',
+            'idConsole' => '2',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'Fortnite',
+            'idConsole' => '4',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'Apex Legends',
+            'idConsole' => '4',
+            'idPlateforme' => '7'
+        ]);
+        Jeux::create([
+            'name' => 'Call of Duty',
+            'idConsole' => '4',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'Counter Strike',
+            'idConsole' => '4',
+            'idPlateforme' => '2'
+        ]);
+        Jeux::create([
+            'name' => 'NBA',
+            'idConsole' => '4',
+            'idPlateforme' => '2'
+        ]);
+        Jeux::create([
+            'name' => 'Clash Royale',
+            'idConsole' => '5',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'PUBG',
+            'idConsole' => '5',
+            'idPlateforme' => '1'
+        ]);
+        Jeux::create([
+            'name' => 'Mario Kart',
+            'idConsole' => '1',
+            'idPlateforme' => '5'
+        ]);
+
+        // Jeux Offline
+        Jeux::create([
+            'name' => 'UNO',
+            'idConsole' => '6',
+            'idPlateforme' => '10'
+        ]);
+        Jeux::create([
+            'name' => 'Monopoly',
+            'idConsole' => '6',
+            'idPlateforme' => '10'
+        ]);
+        Jeux::create([
+            'name' => 'Loup Garou',
+            'idConsole' => '6',
+            'idPlateforme' => '10'
+        ]);
+        Jeux::create([
+            'name' => 'Échecs',
+            'idConsole' => '6',
+            'idPlateforme' => '10'
+        ]);
+        Jeux::create([
+            'name' => 'Jungle Speed',
+            'idConsole' => '6',
+            'idPlateforme' => '10'
+        ]);
+        Jeux::create([
+            'name' => 'Twister',
+            'idConsole' => '6',
+            'idPlateforme' => '10'
+        ]);
+        Jeux::create([
+            'name' => 'JDR',
+            'idConsole' => '6',
+            'idPlateforme' => '10'
+        ]);
+
+        //Sports
+        Sports::create([
+           'name' => 'Kayak'
+        ]);
+        Sports::create([
+            'name' => 'Judo'
+        ]);
+        Sports::create([
+            'name' => 'Badminton'
+        ]);
+        Sports::create([
+            'name' => 'Tennis'
+        ]);
+        Sports::create([
+            'name' => 'Basket'
+        ]);
+        Sports::create([
+            'name' => 'Equitation'
+        ]);
+        Sports::create([
+            'name' => 'Volley-ball'
+        ]);
+        Sports::create([
+            'name' => 'Pétanque'
+        ]);
+        Sports::create([
+            'name' => 'Natation'
+        ]);
+        Sports::create([
+            'name' => 'Karaté'
+        ]);
+        Sports::create([
+            'name' => 'Ping-pong'
+        ]);
+        Sports::create([
+            'name' => 'Tire à l’arc'
+        ]);
+        Sports::create([
+            'name' => 'Football'
+        ]);
+        Sports::create([
+            'name' => 'Foot à 5'
+        ]);
+        Sports::create([
+            'name' => 'Aqua poney'
+        ]);
+
+        // Sorties (Jours)
+        Sorties::create([
+           'name' => 'Bowling'
+        ]);
+        Sorties::create([
+            'name' => 'Bar'
+        ]);
+        Sorties::create([
+            'name' => 'Café'
+        ]);
+        Sorties::create([
+            'name' => 'Resto'
+        ]);
+        Sorties::create([
+            'name' => 'Match de foot'
+        ]);
+        Sorties::create([
+            'name' => 'Aller au stade'
+        ]);
+
+        // Sorties (Nuit)
+        Sorties::create([
+            'name' => 'Bar'
+        ]);
+        Sorties::create([
+            'name' => 'Bar à jeux'
+        ]);
+        Sorties::create([
+            'name' => 'Disco'
+        ]);
+        Sorties::create([
+            'name' => 'Karaoké'
+        ]);
+        Sorties::create([
+            'name' => 'Match de foot'
+        ]);
+        Sorties::create([
+            'name' => 'Strip-clubs'
+        ]);
+        Sorties::create([
+            'name' => 'Soirée Alcoolisé'
+        ]);
+        Sorties::create([
+            'name' => 'Casino'
+        ]);
+        Sorties::create([
+            'name' => 'Parties fines'
+        ]);
+        Sorties::create([
+            'name' => 'Resto'
+        ]);
+        Sorties::create([
+            'name' => 'Opéra'
+        ]);
+        Sorties::create([
+            'name' => 'Théâtre'
+        ]);
+
+        // Genre de Film
+        MoviesType::create([
+            'name' => 'Comédie'
+        ]);
+        MoviesType::create([
+            'name' => 'Drame'
+        ]);
+        MoviesType::create([
+            'name' => 'Thriller'
+        ]);
+        MoviesType::create([
+            'name' => 'Action'
+        ]);
+        MoviesType::create([
+            'name' => 'Horreur'
+        ]);
+        MoviesType::create([
+            'name' => 'Science-fiction'
+        ]);
+        MoviesType::create([
+            'name' => 'Fantasy'
+        ]);
+        MoviesType::create([
+            'name' => 'Western'
+        ]);
+        MoviesType::create([
+            'name' => 'Dessin animé'
+        ]);
+        MoviesType::create([
+            'name' => 'Romance'
+        ]);
+        MoviesType::create([
+            'name' => 'Historique'
+        ]);
+        MoviesType::create([
+            'name' => 'Criminel'
+        ]);
+        MoviesType::create([
+            'name' => 'Dystopie'
+        ]);
+        MoviesType::create([
+            'name' => 'Erotique'
+        ]);
+        MoviesType::create([
+            'name' => 'Animé Japonais'
+        ]);
+
+        // Type Activities
+        ActivitiesType::create([
+            'name' => 'Genre de film'
+        ]);
+        ActivitiesType::create([
+            'name' => 'Sports'
+        ]);
+        ActivitiesType::create([
+            'name' => 'Jeux Online'
+        ]);
+        ActivitiesType::create([
+            'name' => 'Jeux Offlines'
+        ]);
+        ActivitiesType::create([
+            'name' => 'Activités'
+        ]);
+        ActivitiesType::create([
+            'name' => 'Activités Nocturnes'
+        ]);
+
+        //Activities
+            // Genre Film
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '1'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '2'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '3'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '4'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '5'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '6'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '7'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '8'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '9'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '10'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '11'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '12'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '13'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '14'
+            ]);
+            Activities::create([
+                'type' => '1',
+                'idMovieType' => '15'
+            ]);
+            // Sports
+            Activities::create([
+                'type' => '2',
+                'idSport' => '1'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '2'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '3'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '4'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '5'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '6'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '7'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '8'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '9'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '10'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '11'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '12'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '13'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '14'
+            ]);
+            Activities::create([
+                'type' => '2',
+                'idSport' => '15'
+            ]);
+            // Jeux Online
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '1'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '2'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '3'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '4'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '5'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '6'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '7'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '8'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '9'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '10'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '11'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '12'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '13'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '14'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '15'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '16'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '17'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '18'
+            ]);
+            // Jeux Offline
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '19'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '20'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '21'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '22'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '23'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '24'
+            ]);
+            Activities::create([
+                'type' => '3',
+                'idJeux' => '25'
+            ]);
+            // Sorties (Jour)
+            Activities::create([
+                'type' => '4',
+                'idSortie' => '1'
+            ]);
+            Activities::create([
+                'type' => '5',
+                'idSortie' => '2'
+            ]);
+            Activities::create([
+                'type' => '5',
+                'idSortie' => '3'
+            ]);
+            Activities::create([
+                'type' => '5',
+                'idSortie' => '4'
+            ]);
+            Activities::create([
+                'type' => '5',
+                'idSortie' => '5'
+            ]);
+            Activities::create([
+                'type' => '5',
+                'idSortie' => '6'
+            ]);
+            // Sortie Nocturnes
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '7'
+            ]);
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '8'
+            ]);
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '9'
+            ]);
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '10'
+            ]);
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '11'
+            ]);
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '12'
+            ]);
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '13'
+            ]);
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '14'
+            ]);
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '15'
+            ]);
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '16'
+            ]);
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '17'
+            ]);
+            Activities::create([
+                'type' => '6',
+                'idSortie' => '18'
+            ]);
+
+        foreach($allUsers as $usr){
+            Photos::create([
+                'fileName' => 'utilisateur1.png',
+                'position' => '1',
+                'idUser' => $usr->getAttribute('id')
+            ]);
+            Photos::create([
+                'fileName' => 'utilisateur2.png',
+                'position' => '2',
+                'idUser' => $usr->getAttribute('id')
+            ]);
+            Photos::create([
+                'fileName' => 'utilisateur3.png',
+                'position' => '3',
+                'idUser' => $usr->getAttribute('id')
+            ]);
+            Photos::create([
+                'fileName' => 'utilisateur4.png',
+                'position' => '4',
+                'idUser' => $usr->getAttribute('id')
+            ]);
+            Photos::create([
+                'fileName' => 'utilisateur5.png',
+                'position' => '5',
+                'idUser' => $usr->getAttribute('id')
+            ]);
+            Photos::create([
+                'fileName' => 'utilisateur6.png',
+                'position' => '6',
+                'idUser' => $usr->getAttribute('id')
+            ]);
         }
     }
 }

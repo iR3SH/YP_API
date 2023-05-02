@@ -15,7 +15,8 @@ class CreatePhotosTable extends Migration
     {
         Schema::create('photos', function (Blueprint $table) {
             $table->id();
-            $table->string('fileName')->unique();
+            // Remettre ->unique() pour la Release
+            $table->string('fileName');
             $table->integer('position')->default(1);
             $table->integer('idUser');
             $table->foreign('idUser')->references('id')->on('users')->onDelete('CASCADE');

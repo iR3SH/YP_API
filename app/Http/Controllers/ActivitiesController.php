@@ -72,12 +72,6 @@ class ActivitiesController extends Controller
      *      description="Returns an Activity",
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
-     *         name="name",
-     *         in="query",
-     *         description="name of the activity",
-     *         required=false,
-     *      ),
-     *      @OA\Parameter(
      *         name="type",
      *         in="query",
      *         description="type of the activity",
@@ -123,7 +117,6 @@ class ActivitiesController extends Controller
     public function store(Request $request): array
     {
         $request->validate([
-            'name' => 'nullable',
             'type' => 'nullable',
             'idJeux' => 'nullable',
             'idMovieType' => 'nullable',
@@ -244,12 +237,6 @@ class ActivitiesController extends Controller
      *      description="Returns an Activity",
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
-     *         name="name",
-     *         in="query",
-     *         description="name of the activity",
-     *         required=false,
-     *      ),
-     *      @OA\Parameter(
      *         name="type",
      *         in="query",
      *         description="type of the activity",
@@ -295,16 +282,12 @@ class ActivitiesController extends Controller
     public function update(Request $request, Activities $activity): JsonResponse
     {
         $request->validate([
-            'name' => 'nullable',
             'type' => 'nullable',
             'idJeux' => 'nullable',
             'idMovieType' => 'nullable',
             'idSortie' => 'nullable',
             'idSport' => 'nullable',
         ]);
-        if($request->get('name') != null) {
-            $activity->name = $request->get('name');
-        }
         if($request->get('type') != null) {
             $activity->type = $request->get('type');
         }

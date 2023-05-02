@@ -1,3 +1,11 @@
+**02/05/2023**
+* Adding 6 Fake Default Photos to all Users in seed
+* Adding Complet Seeding for Activities
+* Adding some reference to table name in some Model
+* 1 Column was refactored to 'name'
+* Adding Messages to Swagger
+* Adding Photos to Swagger
+
 **28/04/2023 :**
 * Completing Match relations when a match is deleted or like or SuperLike
 * Adding Security when a User like another one to prevent duplication

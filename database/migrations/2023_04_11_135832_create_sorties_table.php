@@ -15,7 +15,7 @@ class CreateSortiesTable extends Migration
     {
         Schema::create('sorties', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
+            $table->string('name');
             $table->timestamps();
         });
     }

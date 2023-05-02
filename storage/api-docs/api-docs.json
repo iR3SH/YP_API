@@ -52,12 +52,6 @@
                 "operationId": "storeActivities",
                 "parameters": [
                     {
-                        "name": "name",
-                        "in": "query",
-                        "description": "name of the activity",
-                        "required": false
-                    },
-                    {
                         "name": "type",
                         "in": "query",
                         "description": "type of the activity",
@@ -218,12 +212,6 @@
                 "description": "Returns an Activity",
                 "operationId": "updateActivities",
                 "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "name of the activity",
-                        "required": false
-                    },
                     {
                         "name": "type",
                         "in": "query",
@@ -957,45 +945,6 @@
                         "required": true
                     }
                 ],
-                "responses": {
-                    "200": {
-                        "description": "successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "status": {
-                                            "type": "integer",
-                                            "example": "200"
-                                        },
-                                        "data": {
-                                            "type": "object"
-                                        },
-                                        "message": {
-                                            "type": "string"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                },
-                "security": [
-                    {
-                        "bearer_token": []
-                    }
-                ]
-            }
-        },
-        "/api/jeux": {
-            "get": {
-                "tags": [
-                    "Jeux"
-                ],
-                "summary": "Get list of Games",
-                "description": "Returns list of Games",
-                "operationId": "indexGames",
                 "responses": {
                     "200": {
                         "description": "successful operation",
