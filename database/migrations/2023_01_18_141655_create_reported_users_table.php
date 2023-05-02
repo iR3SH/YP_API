@@ -19,11 +19,11 @@ class CreateReportedUsersTable extends Migration
             $table->string('content');
             $table->boolean('isClosed')->default(false);
             $table->integer('closedBy');
-            $table->foreign('closedBy')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('closedBy')->references('id')->on('users')->onDelete('CASCADE');
             $table->integer('userWhoReported');
-            $table->foreign('userWhoReported')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('userWhoReported')->references('id')->on('users')->onDelete('CASCADE');
             $table->integer('reportedUser');
-            $table->foreign('reportedUser')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('reportedUser')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

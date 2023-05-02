@@ -16,9 +16,9 @@ class CreateBlockedUsersTable extends Migration
         Schema::create('blocked_users', function (Blueprint $table) {
             $table->id();
             $table->integer('idBlockedUser');
-            $table->foreign('idBlockedUser')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('idBlockedUser')->references('id')->on('users')->onDelete('CASCADE');
             $table->integer('idUserWhoBlocked');
-            $table->foreign('idUserWhoBlocked')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('idUserWhoBlocked')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

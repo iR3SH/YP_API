@@ -5,12 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Conversations;
 use App\Models\Matchs;
 use App\Models\Messages;
-use App\Models\SuperLikes;
 use http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class SuperLikesController extends Controller
+class MatchsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,12 +18,24 @@ class SuperLikesController extends Controller
      */
     /**
      * @OA\Get(
-     *      path="/api/superLikes",
-     *      operationId="indexSuperLikes",
-     *      tags={"SuperLikes"},
-     *      summary="Get list of SuperLikes",
-     *      description="Returns list of SuperLikes",
+     *      path="/api/matchs",
+     *      operationId="indexMatchs",
+     *      tags={"Matchs"},
+     *      summary="Get list of Matchs",
+     *      description="Returns list of Matchs",
      *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idUser",
+     *         in="query",
+     *         description="id of the User 1",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idUser2",
+     *         in="query",
+     *         description="id of the User 2",
+     *         required=true,
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="successful operation",
@@ -36,13 +47,26 @@ class SuperLikesController extends Controller
      *       )
      * )
      *
-     * Returns list of SuperLikes
+     * Returns list of Matchs
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $superlikes = SuperLikes::all();
-
-        return $this->sendResponse($superlikes, "SuperLikes found");
+        $matchs = Matchs::all();
+        if($request->get('idUser') != null || $request->get('idUser2') != null)
+        {
+            $request->validate([
+                'idUser' => 'required',
+                'idUser2' => 'required'
+            ]);
+            $matchs = Matchs::where('idUser', $request->get('idUser'))->where('idUser2', $request->get('idUser2'))->get();
+            if(count($matchs) > 0){
+                return $this->sendResponse($matchs, 'Match send successfully');
+            }
+            else{
+                return $this->sendError("Match doesn't exist");
+            }
+        }
+        return $this->sendResponse($matchs, "Done Successfully");
     }
 
     /**
@@ -63,22 +87,22 @@ class SuperLikesController extends Controller
      */
     /**
      * @OA\Post(
-     *      path="/api/superLikes",
-     *      operationId="storeSuperLikes",
-     *      tags={"SuperLikes"},
-     *      summary="Get list of SuperLikes",
-     *      description="Returns list of SuperLikes",
+     *      path="/api/Matchs",
+     *      operationId="storeMatchs",
+     *      tags={"Matchs"},
+     *      summary="Register a new Matchs",
+     *      description="Returns the new Matchs",
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
-     *         name="idUserWhoLiked",
+     *         name="idUser",
      *         in="query",
-     *         description="id of the User who SuperLiked",
+     *         description="id of the User 1",
      *         required=true,
      *      ),
      *      @OA\Parameter(
-     *         name="idUserWhoBeLiked",
+     *         name="idUser2",
      *         in="query",
-     *         description="id of the User who be SuperLiked",
+     *         description="id of the User 2",
      *         required=true,
      *      ),
      *      @OA\Response(
@@ -92,42 +116,44 @@ class SuperLikesController extends Controller
      *       )
      * )
      *
-     * Returns list of SuperLikes
+     * Returns the new Matchs
      */
     public function store(Request $request): JsonResponse
     {
         $request->validate([
-            "idUserWhoLiked" => 'required',
-            "idUserWhoBeLiked" => 'required',
+            "idUser" => 'required',
+            "idUser2" => 'required',
         ]);
 
-        $superlikes = SuperLikes::create($request->all());
-        $match = Matchs::create($request->all());
-        $conversation = Conversations::create([
-            'idFisrtUser' => $request->get('idUserWhoLiked'),
-            'idSecondUser' => $request->get('idUserWhoBeLiked')
-        ]);
-        return $this->sendResponse([$superlikes, $match, $conversation], "SuperLiked Successfully");
+        $matchs = Matchs::create($request->all());
+
+        return $this->sendResponse($matchs, "Added successfully");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param SuperLikes $superlike
+     * @param Matchs $like
      * @return JsonResponse
      */
     /**
      * @OA\Get(
-     *      path="/api/superLikes/{id}",
-     *      operationId="showSuperLikes",
-     *      tags={"SuperLikes"},
-     *      summary="Get a SuperLikes",
-     *      description="Returns a SuperLikes",
+     *      path="/api/Matchs/{id}",
+     *      operationId="showMatchs",
+     *      tags={"Matchs"},
+     *      summary="Get a Matchs relation",
+     *      description="Returns a Matchs relation",
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="id of the SuperLike",
+     *         name="idUser",
+     *         in="query",
+     *         description="id of the User 1",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idUser2",
+     *         in="query",
+     *         description="id of the User 2",
      *         required=true,
      *      ),
      *      @OA\Response(
@@ -141,20 +167,29 @@ class SuperLikesController extends Controller
      *       )
      * )
      *
-     * Returns a SuperLikes
+     * Returns the new Matchs
      */
-    public function show(SuperLikes $superlike): JsonResponse
+    public function show(Request $request, Matchs $match): JsonResponse
     {
-        return $this->sendResponse($superlike, "Founded");
+        $request->validate([
+            "idUser" => 'required',
+            "idUser2" => 'required',
+        ]);
+
+        if($match != null)
+        {
+            return $this->sendResponse($match, "Showed Successfully");
+        }
+        return $this->sendError("Error to search the specific like relation");
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param SuperLikes $superlikes
+     * @param Matchs $match
      * @return Response
      */
-    public function edit(SuperLikes $superlikes)
+    public function edit(Matchs $match)
     {
     }
 
@@ -162,33 +197,27 @@ class SuperLikesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param SuperLikes $superlike
+     * @param Matchs $match
      * @return JsonResponse
      */
     /**
      * @OA\Patch(
-     *      path="/api/superLikes/{id}",
-     *      operationId="updateSuperLikes",
-     *      tags={"SuperLikes"},
-     *      summary="Update a SuperLikes",
-     *      description="Returns a SuperLikes",
+     *      path="/api/Matchs",
+     *      operationId="updateMatchs",
+     *      tags={"Matchs"},
+     *      summary="Update a Like relation (Not in Use in the futur)",
+     *      description="Returns a Like relation",
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         description="id of the SuperLike",
+     *         name="idUser",
+     *         in="query",
+     *         description="id of the User who Liked",
      *         required=true,
      *      ),
      *      @OA\Parameter(
-     *         name="idFirstuser",
+     *         name="idUser2",
      *         in="query",
-     *         description="id of the first user",
-     *         required=true,
-     *      ),
-     *      @OA\Parameter(
-     *         name="idSecondUser",
-     *         in="query",
-     *         description="id of the second user",
+     *         description="id of the User who be Liked",
      *         required=true,
      *      ),
      *      @OA\Response(
@@ -202,37 +231,37 @@ class SuperLikesController extends Controller
      *       )
      * )
      *
-     * Returns a SuperLikes
+     * Returns the new Matchs
      */
-    public function update(Request $request, SuperLikes $superlike): JsonResponse
+    public function update(Request $request, Matchs $match): JsonResponse
     {
         $request->validate([
-            "idFirstUser" => 'required',
-            "idSecondUser" => 'required',
+            "idUser" => 'required',
+            "idUser2" => 'required',
         ]);
+        $match->update($request->all());
 
-        $superlike->update($request->all());
-        return $this->sendResponse($superlike, "SuperLike Updated");
+        return $this->sendResponse($match, "Like updated successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param SuperLikes $superlike
+     * @param Matchs $match
      * @return JsonResponse
      */
     /**
-     * @OA\delete(
-     *      path="/api/superLikes/{id}",
-     *      operationId="deleteSuperLikes",
-     *      tags={"SuperLikes"},
-     *      summary="Delete a SuperLikes",
-     *      description="Returns a SuperLikes",
+     * @OA\Delete(
+     *      path="/api/Matchs/{id}",
+     *      operationId="deleteMatchs",
+     *      tags={"Matchs"},
+     *      summary="Delete a Matchs relation",
+     *      description="Returns a Matchs relation",
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
      *         name="id",
      *         in="path",
-     *         description="id of the SuperLike",
+     *         description="id of the Matchs Relation",
      *         required=true,
      *      ),
      *      @OA\Response(
@@ -246,13 +275,14 @@ class SuperLikesController extends Controller
      *       )
      * )
      *
-     * Returns a SuperLikes
+     * Delete the match / messages & conversation
      */
-    public function destroy(SuperLikes $superlike): JsonResponse
+    public function destroy(Matchs $match): JsonResponse
     {
-        $this->destroyMatchRelation($superlike->idFirstUser, $superlike->idSecondUser);
-        $superlike->delete();
+        $this->destroyMatchRelation($match->idUser, $match->idUser2);
+        $match->delete();
 
-        return $this->sendResponse($superlike, "Deleted successfully");
+        return $this->sendResponse($match, "Match relation deleted successfully");
     }
+
 }

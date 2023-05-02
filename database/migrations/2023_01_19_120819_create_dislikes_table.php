@@ -16,9 +16,9 @@ class CreateDislikesTable extends Migration
         Schema::create('dislikes', function (Blueprint $table) {
             $table->id();
             $table->integer('idWhoDisliked');
-            $table->foreign('idWhoDisliked')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('idWhoDisliked')->references('id')->on('users')->onDelete('CASCADE');
             $table->integer('idWhoBeDisliked');
-            $table->foreign('idWhoBeDisliked')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('idWhoBeDisliked')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

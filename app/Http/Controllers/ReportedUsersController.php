@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReportedUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -10,17 +11,49 @@ class ReportedUsersController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return array
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function index(): array
+    /**
+     * @OA\Get(
+     *      path="/api/reportedUsers",
+     *      operationId="indexReportedUsers",
+     *      tags={"ReportedUsers"},
+     *      summary="Get list of ReportedUsers",
+     *      description="Returns list of ReportedUsers",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idUser",
+     *         in="query",
+     *         description="id of the User who ask the request",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns list of ReportedUsers
+     */
+    public function index(Request $request): JsonResponse
     {
-        $reportedUsers = ReportedUsers::lastest()->paginate(10);
+        $request->validate([
+            'idUser' => 'required'
+        ]);
+        if($this->isAdminUser($request->get('idUser'))) {
+            $reportedUsers = ReportedUsers::lastest()->paginate(10);
 
-        return [
-            "status" => 1,
-            "data" => $reportedUsers,
-        ];
+            return $this->sendResponse($reportedUsers, "List send successfully");
+        }
+        else{
+            return $this->sendError('Route not found');
+        }
     }
 
     /**
@@ -37,9 +70,54 @@ class ReportedUsersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return array
+     * @return JsonResponse
      */
-    public function store(Request $request): array
+    /**
+     * @OA\Post(
+     *      path="/api/reportedUsers",
+     *      operationId="storeReportedUsers",
+     *      tags={"ReportedUsers"},
+     *      summary="Report a Users",
+     *      description="Returns a ReportedUsers",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="reason",
+     *         in="query",
+     *         description="reason of the report",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="content",
+     *         in="query",
+     *         description="content of the report",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="reportedUser",
+     *         in="query",
+     *         description="id of the User who's been reported",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="userWhoReported",
+     *         in="query",
+     *         description="id of the User who reported",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns a ReportedUsers
+     */
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             "reason" => 'required',
@@ -50,24 +128,59 @@ class ReportedUsersController extends Controller
 
         $reportedUsers = ReportedUsers::create($request->all());
 
-        return [
-            "status" => 1,
-            "data" => $reportedUsers,
-        ];
+        return $this->sendResponse($reportedUsers, "User reported successfully");
     }
-
     /**
-     * Display the specified resource.
-     *
-     * @param ReportedUsers $reportedUsers
-     * @return array
+     * Display a listing of the resource.
+     * @param Request $request
+     * @param ReportedUsers $reportedUser
+     * @return JsonResponse
      */
-    public function show(ReportedUsers $reportedUsers): array
+    /**
+     * @OA\Get(
+     *      path="/api/reportedUsers/{id}",
+     *      operationId="showReportedUsers",
+     *      tags={"ReportedUsers"},
+     *      summary="Get the reports from one Users",
+     *      description="Returns a ReportedUsers",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Not used",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="reportedUser",
+     *         in="query",
+     *         description="id of the User who's been reported",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns a ReportedUsers
+     */
+    public function show(Request $request, ReportedUsers $reportedUser): JsonResponse
     {
-        return [
-            'status' => 1,
-            'data' => $reportedUsers
-        ];
+        $request->validate([
+            'reportedUser' => 'required'
+        ]);
+        $reports = ReportedUsers::where('reportedUser', $request->get('reportedUser'));
+        if(count($reports) > 0){
+            return $this->sendResponse($reports, 'List generated');
+        }
+        else {
+            return $this->sendError("User isn't reported yet");
+        }
     }
 
     /**
@@ -85,39 +198,108 @@ class ReportedUsersController extends Controller
      *
      * @param  Request  $request
      * @param ReportedUsers $reportedUsers
-     * @return array
+     * @return JsonResponse
      */
-    public function update(Request $request, ReportedUsers $reportedUsers): array
+    /**
+     * @OA\Patch(
+     *      path="/api/reportedUsers/{id}",
+     *      operationId="updateReportedUsers",
+     *      tags={"ReportedUsers"},
+     *      summary="Update a Report",
+     *      description="Returns a ReportedUsers",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id of the report",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="reason",
+     *         in="query",
+     *         description="reason of the report",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="content",
+     *         in="query",
+     *         description="content of the report",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="reportedUser",
+     *         in="query",
+     *         description="id of the User who's been reported",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="userWhoReported",
+     *         in="query",
+     *         description="id of the User who reported",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns a ReportedUsers
+     */
+    public function update(Request $request, ReportedUsers $reportedUsers): JsonResponse
     {
         $request->validate([
             "reason" => 'required',
             "content" => 'required',
             "reportedUser" => 'required',
             "userWhoReported" => 'required',
-            "isClosed" => 'required',
         ]);
 
         $reportedUsers->update($request->all());
-        return [
-            "status" => 1,
-            "data" => $reportedUsers,
-            "msg" => "ReportedUser updated successfully",
-        ];
+        return $this->sendResponse($reportedUsers, "Report updated successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param ReportedUsers $reportedUsers
-     * @return array
+     * @return JsonResponse
      */
-    public function destroy(ReportedUsers $reportedUsers): array
+    /**
+     * @OA\Delete(
+     *      path="/api/reportedUsers/{id}",
+     *      operationId="deleteReportedUsers",
+     *      tags={"ReportedUsers"},
+     *      summary="Delete a Report",
+     *      description="Returns a ReportedUsers",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id of the report",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns a ReportedUsers
+     */
+    public function destroy(ReportedUsers $reportedUsers): JsonResponse
     {
         $reportedUsers->delete();
-        return [
-            "status" => 1,
-            "msg" => "ReportedUser deleted successfully",
-            "data" => $reportedUsers,
-        ];
+        return $this->sendResponse($reportedUsers, "Report deleted successfully");
     }
 }

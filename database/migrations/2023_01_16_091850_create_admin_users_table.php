@@ -17,8 +17,8 @@ class CreateAdminUsersTable extends Migration
             $table->id();
             $table->integer('idUser');
             $table->integer('grantedBy');
-            $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
-            $table->foreign('grantedBy')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('idUser')->references('id')->on('users')->onDelete('CASCADE');
+            $table->foreign('grantedBy')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

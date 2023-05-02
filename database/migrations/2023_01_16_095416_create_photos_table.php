@@ -18,7 +18,7 @@ class CreatePhotosTable extends Migration
             $table->string('fileName')->unique();
             $table->integer('position')->default(1);
             $table->integer('idUser');
-            $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('idUser')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

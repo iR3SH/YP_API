@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jeux;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -11,15 +12,33 @@ class JeuxController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return array
+     * @return JsonResponse
      */
-    public function index(): array
+    /**
+     * @OA\Get(
+     *      path="/api/jeux",
+     *      operationId="indexGames",
+     *      tags={"Jeux"},
+     *      summary="Get list of Games",
+     *      description="Returns list of Games",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns list of Games
+     */
+    public function index(): JsonResponse
     {
         $jeu = Jeux::all();
-        return [
-            "status" => 1,
-            "data" => $jeu
-        ];
+        return $this->sendResponse($jeu, "Done successfully");
     }
 
     /**

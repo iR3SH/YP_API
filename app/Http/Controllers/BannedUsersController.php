@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BannedUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -11,16 +12,34 @@ class BannedUsersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return array
+     * @return JsonResponse
      */
-    public function index(): array
+    /**
+     * @OA\Get(
+     *      path="/api/bannedUsers",
+     *      operationId="indexBannedUsers",
+     *      tags={"BannedUsers"},
+     *      summary="Get list of BannedUsers",
+     *      description="Returns list of BannedUsers",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns list of BannedUsers
+     */
+    public function index(): JsonResponse
     {
-        $bannedUsers = BannedUsers::lastest()->paginate(10);
+        $bannedUsers = BannedUsers::all();
 
-        return [
-            "status" => 1,
-            "data" => $bannedUsers,
-        ];
+        return $this->sendResponse($bannedUsers, "List of BannedUsers");
     }
 
     /**
@@ -37,37 +56,107 @@ class BannedUsersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return array
+     * @return JsonResponse
      */
-    public function store(Request $request): array
+    /**
+     * @OA\Post(
+     *      path="/api/bannedUsers",
+     *      operationId="storeBannedUsers",
+     *      tags={"BannedUsers"},
+     *      summary="Create a BannedUsers",
+     *      description="Returns a BannedUsers",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="reason",
+     *         in="query",
+     *         description="reason of the Ban",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="isLifeTime",
+     *         in="query",
+     *         description="it is a life time ban ?",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idUser",
+     *         in="query",
+     *         description="Id of the BannedUser",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idAdmin",
+     *         in="query",
+     *         description="Id of the Admin",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns a BannedUsers
+     */
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
-            "timestamp" => 'required',
             "reason" => 'required',
+            "isLifeTime" => 'required',
             "idUser" => 'required',
             "idAdmin" => 'required',
         ]);
+        if($this->isAdminUser($request->idAdmin)) {
+            $data = $request->all();
+            $data->array_push(['timestamp' => time()]);
+            $bannedUser = BannedUsers::create($data);
 
-        $bannedUser = BannedUsers::create($request->all());
-
-        return [
-            "status" => 1,
-            "data" => $bannedUser,
-        ];
+            return $this->sendResponse($bannedUser, "The User has been Banned");
+        }
+        return $this->sendError("Route not found");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param BannedUsers $bannedUsers
-     * @return array
+     * @param BannedUsers $bannedUser
+     * @return JsonResponse
      */
-    public function show(BannedUsers $bannedUsers): array
+    /**
+     * @OA\Get(
+     *      path="/api/bannedUsers/{idUser}",
+     *      operationId="showBannedUsers",
+     *      tags={"BannedUsers"},
+     *      summary="Get a BannedUsers",
+     *      description="Returns a BannedUsers",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idUser",
+     *         in="path",
+     *         description="Id of the BannedUser",
+     *         required=false,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns a BannedUsers
+     */
+    public function show(BannedUsers $bannedUser): JsonResponse
     {
-        return [
-          'status' => 1,
-          'data' => $bannedUsers
-        ];
+        return $this->sendResponse($bannedUser, "Found !");
     }
 
     /**
@@ -85,9 +174,60 @@ class BannedUsersController extends Controller
      *
      * @param  Request  $request
      * @param BannedUsers $bannedUsers
-     * @return array
+     * @return JsonResponse
      */
-    public function update(Request $request, BannedUsers $bannedUsers): array
+    /**
+     * @OA\Patch(
+     *      path="/api/bannedUsers/{id}",
+     *      operationId="updateBannedUsers",
+     *      tags={"BannedUsers"},
+     *      summary="Update a BannedUsers",
+     *      description="Returns a BannedUsers",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id of the Ban",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="reason",
+     *         in="query",
+     *         description="reason of the Ban",
+     *         required=false,
+     *      ),
+     *      @OA\Parameter(
+     *         name="isLifeTime",
+     *         in="query",
+     *         description="it is a life time ban ?",
+     *         required=false,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idUser",
+     *         in="query",
+     *         description="Id of the BannedUser",
+     *         required=false,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idAdmin",
+     *         in="query",
+     *         description="Id of the Admin",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns a BannedUsers
+     */
+    public function update(Request $request, BannedUsers $bannedUser): JsonResponse
     {
         $request->validate([
             "timestamp" => 'required',
@@ -97,27 +237,46 @@ class BannedUsersController extends Controller
             "isLifeTime" => 'required',
         ]);
 
-        $bannedUsers->update($request->all());
-        return [
-            "status" => 1,
-            "data" => $bannedUsers,
-            "msg" => "BannedUser updated successfully",
-        ];
+        $bannedUser->update($request->all());
+        return $this->sendResponse($bannedUser, "Banned User updated !");
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param BannedUsers $bannedUsers
-     * @return array
+     * @return JsonResponse
      */
-    public function destroy(BannedUsers $bannedUsers): array
+    /**
+     * @OA\Delete(
+     *      path="/api/bannedUsers/{id}",
+     *      operationId="destroyBannedUsers",
+     *      tags={"BannedUsers"},
+     *      summary="Delete a BannedUsers",
+     *      description="Returns a BannedUsers",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Id of the BannedUser",
+     *         required=false,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns a BannedUsers
+     */
+    public function destroy(BannedUsers $bannedUsers): JsonResponse
     {
         $bannedUsers->delete();
-        return [
-            "status" => 1,
-            "msg" => "BannedUser deleted successfully",
-            "data" => $bannedUsers,
-        ];
+        return $this->sendResponse($bannedUsers, "was deleted successfully");
     }
 }

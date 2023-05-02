@@ -16,9 +16,9 @@ class CreateBuylogsTable extends Migration
         Schema::create('buylogs', function (Blueprint $table) {
             $table->id();
             $table->integer('idUser');
-            $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('idUser')->references('id')->on('users')->onDelete('CASCADE');
             $table->integer('idSubscription');
-            $table->foreign('idSubscription')->references('id')->on('subscriptions')->onDelete('NO ACTION');
+            $table->foreign('idSubscription')->references('id')->on('subscriptions')->onDelete('CASCADE');
             $table->decimal('cost');
             $table->timestamps();
         });

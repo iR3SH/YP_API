@@ -16,15 +16,14 @@ class CreateUsersPreferencesTable extends Migration
         Schema::create('users_preferences', function (Blueprint $table) {
             $table->id();
             $table->integer('activities')->nullable();
-            $table->foreign('activities')->references('id')->on('activities')->onDelete('NO ACTION');
+            $table->foreign('activities')->references('id')->on('activities')->onDelete('CASCADE');
             $table->string('musicStyles')->nullable();
             $table->string('redFlags')->nullable();
             $table->string('languages')->nullable();
-            $table->string('moviePref')->nullable();
             $table->string('genderPref')->nullable();
             $table->integer('distancePref')->default(0);
             $table->integer('idUser');
-            $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('idUser')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

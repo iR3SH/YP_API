@@ -17,6 +17,8 @@ class CreateUsersPrefsActivitiesTable extends Migration
             $table->id();
             $table->integer('idUserPref');
             $table->foreign('idUserPref')->references('id')->on('users_preferences');
+            $table->integer('idActivity');
+            $table->foreign('idActivity')->references('id')->on('activities');
             $table->timestamps();
         });
     }

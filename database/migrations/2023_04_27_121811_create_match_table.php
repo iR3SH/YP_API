@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersActivitiesTable extends Migration
+class CreateMatchTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateUsersActivitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_activities', function (Blueprint $table) {
+        Schema::create('matchs', function (Blueprint $table) {
             $table->id();
             $table->integer('idUser');
-            $table->foreign('idUser')->references('id')->on('users');
-            $table->integer('idActivity');
-            $table->foreign('idActivity')->references('id')->on('activities');
+            $table->foreign('idUser')->references('id')->on('users')->onDelete('CASCADE');
+            $table->integer('idUser2');
+            $table->foreign('idUser2')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateUsersActivitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_activities');
+        Schema::dropIfExists('matchs');
     }
 }

@@ -16,9 +16,9 @@ class CreateSuperlikesTable extends Migration
         Schema::create('super_likes', function (Blueprint $table) {
             $table->id();
             $table->integer('idUserWhoLiked');
-            $table->foreign('idUserWhoLiked')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('idUserWhoLiked')->references('id')->on('users')->onDelete('CASCADE');
             $table->integer('idUserWhoBeLiked');
-            $table->foreign('idUserWhoBeLiked')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('idUserWhoBeLiked')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

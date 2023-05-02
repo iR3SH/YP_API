@@ -1,0 +1,3090 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "YP API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/activities": {
+            "get": {
+                "tags": [
+                    "Activities"
+                ],
+                "summary": "Get list of Activities",
+                "description": "Returns list of Activities",
+                "operationId": "indexActivities",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Activities"
+                ],
+                "summary": "Create an Activity",
+                "description": "Returns an Activity",
+                "operationId": "storeActivities",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name of the activity",
+                        "required": false
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type of the activity",
+                        "required": false
+                    },
+                    {
+                        "name": "idJeux",
+                        "in": "query",
+                        "description": "idJeux of the activity",
+                        "required": false
+                    },
+                    {
+                        "name": "idMovieType",
+                        "in": "query",
+                        "description": "idMovieType of the activity",
+                        "required": false
+                    },
+                    {
+                        "name": "idSortie",
+                        "in": "query",
+                        "description": "idSortie of the activity",
+                        "required": false
+                    },
+                    {
+                        "name": "idSport",
+                        "in": "query",
+                        "description": "idSport of the activity",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/activities/{id}": {
+            "get": {
+                "tags": [
+                    "Activities"
+                ],
+                "summary": "Get an Activity",
+                "description": "Returns an Activity",
+                "operationId": "showActivities",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the activity",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Activities"
+                ],
+                "summary": "Delete an Activity",
+                "description": "Returns a deleted Activity",
+                "operationId": "destroyActivities",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the activity",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Activities"
+                ],
+                "summary": "Update an Activity",
+                "description": "Returns an Activity",
+                "operationId": "updateActivities",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "name of the activity",
+                        "required": false
+                    },
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type of the activity",
+                        "required": false
+                    },
+                    {
+                        "name": "idJeux",
+                        "in": "query",
+                        "description": "idJeux of the activity",
+                        "required": false
+                    },
+                    {
+                        "name": "idMovieType",
+                        "in": "query",
+                        "description": "idMovieType of the activity",
+                        "required": false
+                    },
+                    {
+                        "name": "idSortie",
+                        "in": "query",
+                        "description": "idSortie of the activity",
+                        "required": false
+                    },
+                    {
+                        "name": "idSport",
+                        "in": "query",
+                        "description": "idSport of the activity",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/adminUsers": {
+            "get": {
+                "tags": [
+                    "AdminUsers"
+                ],
+                "summary": "Get list of AdminUsers",
+                "description": "Returns list of AdminUsers",
+                "operationId": "indexAdminUsers",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User who ask the request",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "AdminUsers"
+                ],
+                "summary": "Grant an Users",
+                "description": "Returns a AdminUsers",
+                "operationId": "storeAdminUsers",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User to be granted",
+                        "required": true
+                    },
+                    {
+                        "name": "grantedBy",
+                        "in": "query",
+                        "description": "id of the AdminUser",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/adminUsers/{idUser}": {
+            "get": {
+                "tags": [
+                    "AdminUsers"
+                ],
+                "summary": "Get the AdminUser",
+                "description": "Returns the AdminUser",
+                "operationId": "showAdminUsers",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "path",
+                        "description": "id of the User",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "AdminUsers"
+                ],
+                "summary": "Delete the AdminUser",
+                "description": "Returns the AdminUser",
+                "operationId": "deleteAdminUsers",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "path",
+                        "description": "id of the User",
+                        "required": true
+                    },
+                    {
+                        "name": "grantedBy",
+                        "in": "query",
+                        "description": "id of the AdminUser who ask the request",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "AdminUsers"
+                ],
+                "summary": "Update the AdminUser",
+                "description": "Returns the AdminUser",
+                "operationId": "updateAdminUsers",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "path",
+                        "description": "id of the User",
+                        "required": true
+                    },
+                    {
+                        "name": "grantedBy",
+                        "in": "query",
+                        "description": "id of the AdminUser who ask the request",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/bannedUsers": {
+            "get": {
+                "tags": [
+                    "BannedUsers"
+                ],
+                "summary": "Get list of BannedUsers",
+                "description": "Returns list of BannedUsers",
+                "operationId": "indexBannedUsers",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "BannedUsers"
+                ],
+                "summary": "Create a BannedUsers",
+                "description": "Returns a BannedUsers",
+                "operationId": "storeBannedUsers",
+                "parameters": [
+                    {
+                        "name": "reason",
+                        "in": "query",
+                        "description": "reason of the Ban",
+                        "required": true
+                    },
+                    {
+                        "name": "isLifeTime",
+                        "in": "query",
+                        "description": "it is a life time ban ?",
+                        "required": true
+                    },
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "Id of the BannedUser",
+                        "required": true
+                    },
+                    {
+                        "name": "idAdmin",
+                        "in": "query",
+                        "description": "Id of the Admin",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/bannedUsers/{idUser}": {
+            "get": {
+                "tags": [
+                    "BannedUsers"
+                ],
+                "summary": "Get a BannedUsers",
+                "description": "Returns a BannedUsers",
+                "operationId": "showBannedUsers",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "path",
+                        "description": "Id of the BannedUser",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/bannedUsers/{id}": {
+            "delete": {
+                "tags": [
+                    "BannedUsers"
+                ],
+                "summary": "Delete a BannedUsers",
+                "description": "Returns a BannedUsers",
+                "operationId": "destroyBannedUsers",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the BannedUser",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "BannedUsers"
+                ],
+                "summary": "Update a BannedUsers",
+                "description": "Returns a BannedUsers",
+                "operationId": "updateBannedUsers",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the Ban",
+                        "required": true
+                    },
+                    {
+                        "name": "reason",
+                        "in": "query",
+                        "description": "reason of the Ban",
+                        "required": false
+                    },
+                    {
+                        "name": "isLifeTime",
+                        "in": "query",
+                        "description": "it is a life time ban ?",
+                        "required": false
+                    },
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "Id of the BannedUser",
+                        "required": false
+                    },
+                    {
+                        "name": "idAdmin",
+                        "in": "query",
+                        "description": "Id of the Admin",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/conversations": {
+            "get": {
+                "tags": [
+                    "Conversations"
+                ],
+                "summary": "Get list of Conversations from One User",
+                "description": "Returns list of Conversations from One User",
+                "operationId": "indexConversations",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User who has conversation",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Conversations"
+                ],
+                "summary": "Create a  Conversations",
+                "description": "Returns the created Conversations",
+                "operationId": "storeConversations",
+                "parameters": [
+                    {
+                        "name": "idFirstUser",
+                        "in": "query",
+                        "description": "iid of the first User",
+                        "required": true
+                    },
+                    {
+                        "name": "idSecondUser",
+                        "in": "query",
+                        "description": "id of the second User",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/conversations/{id}": {
+            "get": {
+                "tags": [
+                    "Conversations"
+                ],
+                "summary": "Get a Conversations",
+                "description": "Returns a Conversations",
+                "operationId": "showConversations",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the conversation",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Conversations"
+                ],
+                "summary": "Get a Conversations",
+                "description": "Returns a Conversations",
+                "operationId": "deleteConversations",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the conversation",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/jeux": {
+            "get": {
+                "tags": [
+                    "Jeux"
+                ],
+                "summary": "Get list of Games",
+                "description": "Returns list of Games",
+                "operationId": "indexGames",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/likes": {
+            "get": {
+                "tags": [
+                    "Likes"
+                ],
+                "summary": "Get list of Likes",
+                "description": "Returns list of Likes",
+                "operationId": "indexLikes",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Likes"
+                ],
+                "summary": "Register a new Like",
+                "description": "Returns the new Likes",
+                "operationId": "storeLikes",
+                "parameters": [
+                    {
+                        "name": "idUserWhoLiked",
+                        "in": "query",
+                        "description": "id of the User who Liked",
+                        "required": true
+                    },
+                    {
+                        "name": "idUserWhoBeLiked",
+                        "in": "query",
+                        "description": "id of the User who be Liked",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Likes"
+                ],
+                "summary": "Update a Like relation (Not in Use in the futur)",
+                "description": "Returns a Like relation",
+                "operationId": "updateLikes",
+                "parameters": [
+                    {
+                        "name": "idUserWhoLiked",
+                        "in": "query",
+                        "description": "id of the User who Liked",
+                        "required": true
+                    },
+                    {
+                        "name": "idUserWhoBeLiked",
+                        "in": "query",
+                        "description": "id of the User who be Liked",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/likes/{idUserWhoLiked}": {
+            "get": {
+                "tags": [
+                    "Likes"
+                ],
+                "summary": "Get a Like relation",
+                "description": "Returns a Like relation",
+                "operationId": "showLikes",
+                "parameters": [
+                    {
+                        "name": "idUserWhoLiked",
+                        "in": "path",
+                        "description": "id of the User who Liked",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/likes/{id}": {
+            "delete": {
+                "tags": [
+                    "Likes"
+                ],
+                "summary": "Delete a Like relation",
+                "description": "Returns a Like relation",
+                "operationId": "deleteLikes",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the Like Relation",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Log into API",
+                "description": "Returns token with User Infos",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Password of the user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "Register into API",
+                "description": "Returns token with User Infos",
+                "operationId": "register",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Password of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "lastName",
+                        "in": "query",
+                        "description": "Lastname of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "age",
+                        "in": "query",
+                        "description": "Age of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "phoneNumber",
+                        "in": "query",
+                        "description": "Phone Number of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "description": "Gender of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "City of the user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/matchs": {
+            "get": {
+                "tags": [
+                    "Matchs"
+                ],
+                "summary": "Get list of Matchs",
+                "description": "Returns list of Matchs",
+                "operationId": "indexMatchs",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User 1",
+                        "required": true
+                    },
+                    {
+                        "name": "idUser2",
+                        "in": "query",
+                        "description": "id of the User 2",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/Matchs": {
+            "post": {
+                "tags": [
+                    "Matchs"
+                ],
+                "summary": "Register a new Matchs",
+                "description": "Returns the new Matchs",
+                "operationId": "storeMatchs",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User 1",
+                        "required": true
+                    },
+                    {
+                        "name": "idUser2",
+                        "in": "query",
+                        "description": "id of the User 2",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Matchs"
+                ],
+                "summary": "Update a Like relation (Not in Use in the futur)",
+                "description": "Returns a Like relation",
+                "operationId": "updateMatchs",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User who Liked",
+                        "required": true
+                    },
+                    {
+                        "name": "idUser2",
+                        "in": "query",
+                        "description": "id of the User who be Liked",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/Matchs/{id}": {
+            "get": {
+                "tags": [
+                    "Matchs"
+                ],
+                "summary": "Get a Matchs relation",
+                "description": "Returns a Matchs relation",
+                "operationId": "showMatchs",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User 1",
+                        "required": true
+                    },
+                    {
+                        "name": "idUser2",
+                        "in": "query",
+                        "description": "id of the User 2",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Matchs"
+                ],
+                "summary": "Delete a Matchs relation",
+                "description": "Returns a Matchs relation",
+                "operationId": "deleteMatchs",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the Matchs Relation",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/reportedUsers": {
+            "get": {
+                "tags": [
+                    "ReportedUsers"
+                ],
+                "summary": "Get list of ReportedUsers",
+                "description": "Returns list of ReportedUsers",
+                "operationId": "indexReportedUsers",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User who ask the request",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "ReportedUsers"
+                ],
+                "summary": "Report a Users",
+                "description": "Returns a ReportedUsers",
+                "operationId": "storeReportedUsers",
+                "parameters": [
+                    {
+                        "name": "reason",
+                        "in": "query",
+                        "description": "reason of the report",
+                        "required": true
+                    },
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "description": "content of the report",
+                        "required": true
+                    },
+                    {
+                        "name": "reportedUser",
+                        "in": "query",
+                        "description": "id of the User who's been reported",
+                        "required": true
+                    },
+                    {
+                        "name": "userWhoReported",
+                        "in": "query",
+                        "description": "id of the User who reported",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/reportedUsers/{id}": {
+            "get": {
+                "tags": [
+                    "ReportedUsers"
+                ],
+                "summary": "Get the reports from one Users",
+                "description": "Returns a ReportedUsers",
+                "operationId": "showReportedUsers",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Not used",
+                        "required": true
+                    },
+                    {
+                        "name": "reportedUser",
+                        "in": "query",
+                        "description": "id of the User who's been reported",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "ReportedUsers"
+                ],
+                "summary": "Delete a Report",
+                "description": "Returns a ReportedUsers",
+                "operationId": "deleteReportedUsers",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the report",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "ReportedUsers"
+                ],
+                "summary": "Update a Report",
+                "description": "Returns a ReportedUsers",
+                "operationId": "updateReportedUsers",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the report",
+                        "required": true
+                    },
+                    {
+                        "name": "reason",
+                        "in": "query",
+                        "description": "reason of the report",
+                        "required": true
+                    },
+                    {
+                        "name": "content",
+                        "in": "query",
+                        "description": "content of the report",
+                        "required": true
+                    },
+                    {
+                        "name": "reportedUser",
+                        "in": "query",
+                        "description": "id of the User who's been reported",
+                        "required": true
+                    },
+                    {
+                        "name": "userWhoReported",
+                        "in": "query",
+                        "description": "id of the User who reported",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/superLikes": {
+            "get": {
+                "tags": [
+                    "SuperLikes"
+                ],
+                "summary": "Get list of SuperLikes",
+                "description": "Returns list of SuperLikes",
+                "operationId": "indexSuperLikes",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "SuperLikes"
+                ],
+                "summary": "Get list of SuperLikes",
+                "description": "Returns list of SuperLikes",
+                "operationId": "storeSuperLikes",
+                "parameters": [
+                    {
+                        "name": "idUserWhoLiked",
+                        "in": "query",
+                        "description": "id of the User who SuperLiked",
+                        "required": true
+                    },
+                    {
+                        "name": "idUserWhoBeLiked",
+                        "in": "query",
+                        "description": "id of the User who be SuperLiked",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/superLikes/{id}": {
+            "get": {
+                "tags": [
+                    "SuperLikes"
+                ],
+                "summary": "Get a SuperLikes",
+                "description": "Returns a SuperLikes",
+                "operationId": "showSuperLikes",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the SuperLike",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "SuperLikes"
+                ],
+                "summary": "Delete a SuperLikes",
+                "description": "Returns a SuperLikes",
+                "operationId": "deleteSuperLikes",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the SuperLike",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "SuperLikes"
+                ],
+                "summary": "Update a SuperLikes",
+                "description": "Returns a SuperLikes",
+                "operationId": "updateSuperLikes",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the SuperLike",
+                        "required": true
+                    },
+                    {
+                        "name": "idFirstuser",
+                        "in": "query",
+                        "description": "id of the first user",
+                        "required": true
+                    },
+                    {
+                        "name": "idSecondUser",
+                        "in": "query",
+                        "description": "id of the second user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get list of users",
+                "description": "Returns list of users",
+                "operationId": "index",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Insert a new user",
+                "description": "Returns the registred user",
+                "operationId": "store",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "Email for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "lastName",
+                        "in": "query",
+                        "description": "Lastname for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "Password for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "phoneNumber",
+                        "in": "query",
+                        "description": "PhoneNumber for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "gender",
+                        "in": "query",
+                        "description": "Gender for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "City for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "age",
+                        "in": "query",
+                        "description": "Age for the new User",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get user",
+                "description": "Returns user",
+                "operationId": "show",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the user",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete One User",
+                "description": "Returns true or false",
+                "operationId": "destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the User you want to delete",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update one user",
+                "description": "Returns data's of the user",
+                "operationId": "update",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/usersActivities": {
+            "get": {
+                "tags": [
+                    "UsersActivities"
+                ],
+                "summary": "Get list of UsersActivities",
+                "description": "Returns list of UsersActivities",
+                "operationId": "indexUsersActivities",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User who ask the request",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "UsersActivities"
+                ],
+                "summary": "Create a UsersActivities",
+                "description": "Returns list of UsersActivities",
+                "operationId": "storeUsersActivities",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User",
+                        "required": true
+                    },
+                    {
+                        "name": "idActivity",
+                        "in": "query",
+                        "description": "id of the Activity",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/usersActivities/{id}": {
+            "get": {
+                "tags": [
+                    "UsersActivities"
+                ],
+                "summary": "Get the UsersActivities",
+                "description": "Returns the UsersActivities",
+                "operationId": "showUsersActivities",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "path",
+                        "description": "id of the User who ask the request",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "UsersActivities"
+                ],
+                "summary": "Delete a UsersActivities",
+                "description": "Returns list of UsersActivities",
+                "operationId": "destroyUsersActivities",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the User",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/usersPreferences": {
+            "get": {
+                "tags": [
+                    "Users Preferences"
+                ],
+                "summary": "Get list of Users Preferences",
+                "description": "Returns list of Users Preferences",
+                "operationId": "indexUserPref",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Users Preferences"
+                ],
+                "summary": "Insert a new Users Preferences",
+                "description": "Returns a new Users Preferences",
+                "operationId": "storeuserspreferences",
+                "parameters": [
+                    {
+                        "name": "activities",
+                        "in": "query",
+                        "description": "activities for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "musicsStyles",
+                        "in": "query",
+                        "description": "musicsStyles for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "redFlags",
+                        "in": "query",
+                        "description": "redFlags for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "languages",
+                        "in": "query",
+                        "description": "languages for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "genderPref",
+                        "in": "query",
+                        "description": "genderPref for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "distancePref",
+                        "in": "query",
+                        "description": "distancePref for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "idUser of the new User",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "Users Preferences"
+                ],
+                "summary": "Update Users Preferences",
+                "description": "Returns a Users Preferences",
+                "operationId": "updateuserspreferences",
+                "parameters": [
+                    {
+                        "name": "activities",
+                        "in": "query",
+                        "description": "activities for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "musicsStyles",
+                        "in": "query",
+                        "description": "musicsStyles for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "redFlags",
+                        "in": "query",
+                        "description": "redFlags for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "languages",
+                        "in": "query",
+                        "description": "languages for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "genderPref",
+                        "in": "query",
+                        "description": "genderPref for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "distancePref",
+                        "in": "query",
+                        "description": "distancePref for the new User",
+                        "required": true
+                    },
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "idUser of the new User",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/usersPreferences/{idUser}": {
+            "get": {
+                "tags": [
+                    "Users Preferences"
+                ],
+                "summary": "Get infos of Users Preferences",
+                "description": "Returns infos of Users Preferences",
+                "operationId": "showUserPref",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "idUser of User",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Users Preferences"
+                ],
+                "summary": "Delete on Users Preferences",
+                "description": "Returns infos of Users Preferences",
+                "operationId": "deleteUserPref",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "path",
+                        "description": "idUser of User",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/usersPrefsActivities": {
+            "get": {
+                "tags": [
+                    "UsersPrefsActivities"
+                ],
+                "summary": "Get list of UsersPrefsActivities",
+                "description": "Returns list of UsersPrefsActivities",
+                "operationId": "indexUsersPrefsActivities",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User who ask the request",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "UsersPrefsActivities"
+                ],
+                "summary": "Create a UsersPrefsActivities",
+                "description": "Returns a UsersPrefsActivities",
+                "operationId": "storeUsersPrefsActivities",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id of the User who ask the request",
+                        "required": true
+                    },
+                    {
+                        "name": "idActivity",
+                        "in": "query",
+                        "description": "id of Activity",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/usersPrefsActivities/{id}": {
+            "get": {
+                "tags": [
+                    "UsersPrefsActivities"
+                ],
+                "summary": "Get a UsersPrefsActivities",
+                "description": "Returns a UsersPrefsActivities",
+                "operationId": "showUsersPrefsActivities",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the UserPrefActivity",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "UsersPrefsActivities"
+                ],
+                "summary": "Delete a UsersPrefsActivities",
+                "description": "Returns a UsersPrefsActivities",
+                "operationId": "destroyUsersPrefsActivities",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the UserPrefActivity",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearer_token": {
+                "type": "http",
+                "description": "Login with email and password to get the authentication token",
+                "name": "Token based Based",
+                "in": "header",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    }
+}

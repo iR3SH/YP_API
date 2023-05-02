@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Likes;
+use App\Models\Matchs;
+use http\Client\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LikesController extends Controller
@@ -10,16 +13,33 @@ class LikesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return array
+     * @return JsonResponse
      */
-    public function index(): array
+    /**
+     * @OA\Get(
+     *      path="/api/likes",
+     *      operationId="indexLikes",
+     *      tags={"Likes"},
+     *      summary="Get list of Likes",
+     *      description="Returns list of Likes",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns list of Likes
+     */
+    public function index(): JsonResponse
     {
-        $likes = Likes::lastest()->paginate(10);
-
-        return [
-            "status" => 1,
-            "data" => $likes,
-        ];
+        $likes = Likes::all();
+        return $this->sendResponse($likes, "Done Successfully");
     }
 
     /**
@@ -36,44 +56,106 @@ class LikesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return array
+     * @return JsonResponse
      */
-    public function store(Request $request): array
+    /**
+     * @OA\Post(
+     *      path="/api/likes",
+     *      operationId="storeLikes",
+     *      tags={"Likes"},
+     *      summary="Register a new Like",
+     *      description="Returns the new Likes",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idUserWhoLiked",
+     *         in="query",
+     *         description="id of the User who Liked",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idUserWhoBeLiked",
+     *         in="query",
+     *         description="id of the User who be Liked",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the new Likes
+     */
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             "idUserWhoLiked" => 'required',
             "idUserWhoBeLiked" => 'required',
         ]);
+        $verif = Likes::where('idUserWhoLiked', '=', $request->get('idUserWhoLiked'))->where('idUserWhoBeLiked', '=', $request->get('idUserWhoBeLiked'))->get();
+        if(count($verif) == 0) {
+            $likes = Likes::create($request->all());
+            $likesOther = Likes::where('idUserWhoLiked', $request->get('idUserWhoBeLiked'))->where('idUserWhoBeLiked', $request->get('idUserWhoLiked'))->get();
+            if (count($likesOther) > 0) {
+                $newMatch = Matchs::create(['idUser' => $likes->idUserWhoLiked, 'idUser2' => $likes->idUserWhoBeLiked]);
+                return $this->sendResponse([$likes, $newMatch], "Added successfully");
+            }
 
-        $likes = Likes::create($request->all());
-
-        return [
-            "status" => 1,
-            "data" => $likes,
-        ];
+            return $this->sendResponse($likes, "Added successfully");
+        }
+        return $this->sendResponse($verif,"Like Already exist");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Likes $likes
-     * @return array
+     * @param Likes $like
+     * @return JsonResponse
      */
-    public function show(Likes $likes): array
+    /**
+     * @OA\Get(
+     *      path="/api/likes/{idUserWhoLiked}",
+     *      operationId="showLikes",
+     *      tags={"Likes"},
+     *      summary="Get a Like relation",
+     *      description="Returns a Like relation",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idUserWhoLiked",
+     *         in="path",
+     *         description="id of the User who Liked",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the new Likes
+     */
+    public function show(Likes $like): JsonResponse
     {
-        return [
-            'status' => 1,
-            'data' => $likes
-        ];
+        return $this->sendResponse($like, "Showed Successfully");
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Likes $likes
+     * @param Likes $like
      * @return Response
      */
-    public function edit(Likes $likes)
+    public function edit(Likes $like)
     {
     }
 
@@ -81,37 +163,97 @@ class LikesController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param Likes $likes
-     * @return array
+     * @param Likes $like
+     * @return JsonResponse
      */
-    public function update(Request $request, Likes $likes): array
+    /**
+     * @OA\Patch(
+     *      path="/api/likes",
+     *      operationId="updateLikes",
+     *      tags={"Likes"},
+     *      summary="Update a Like relation (Not in Use in the futur)",
+     *      description="Returns a Like relation",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idUserWhoLiked",
+     *         in="query",
+     *         description="id of the User who Liked",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idUserWhoBeLiked",
+     *         in="query",
+     *         description="id of the User who be Liked",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the new Likes
+     */
+    public function update(Request $request, Likes $like): JsonResponse
     {
         $request->validate([
             "idUserWhoLiked" => 'required',
             "idUserWhoBeLiked" => 'required',
         ]);
+        $like->update($request->all());
 
-        $likes->update($request->all());
-        return [
-            "status" => 1,
-            "data" => $likes,
-            "msg" => "Like updated successfully"
-        ];
+        return $this->sendResponse($like, "Like updated successfully");
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Likes $likes
-     * @return array
+     * @param Likes $like
+     * @return JsonResponse
      */
-    public function destroy(Likes $likes): array
+    /**
+     * @OA\Delete(
+     *      path="/api/likes/{id}",
+     *      operationId="deleteLikes",
+     *      tags={"Likes"},
+     *      summary="Delete a Like relation",
+     *      description="Returns a Like relation",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id of the Like Relation",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the new Likes
+     */
+    public function destroy(Likes $like): JsonResponse
     {
-        $likes->delete();
-        return [
-            "status" => 1,
-            "msg" => "Likes deleted successfully",
-            "data" => $likes,
-        ];
+        $otherLike = Likes::where('idUserWhoLiked', $like->idUserWhoBeLiked)->where('idUserWhoBeLiked', $like->idUserWhoLiked)->get();
+        if(count($otherLike) > 0) {
+            $this->destroyMatchRelation($like->idUserWhoLiked, $like->idUserWhoBeLiked);
+            $like->delete();
+            return $this->sendResponse($like, "Like relation and match deleted successfully");
+        }
+        else {
+            $like->delete();
+            return $this->sendResponse($like, "Like relation deleted successfully");
+        }
     }
 }

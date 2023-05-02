@@ -20,8 +20,8 @@ class CreateBannedUsersTable extends Migration
             $table->boolean('isLifeTime')->default(false);
             $table->integer('idUser');
             $table->integer('idAdmin');
-            $table->foreign('idUser')->references('id')->on('users')->onDelete('NO ACTION');
-            $table->foreign('idAdmin')->references('id')->on('users')->onDelete('NO ACTION');
+            $table->foreign('idUser')->references('id')->on('users')->onDelete('CASCADE');
+            $table->foreign('idAdmin')->references('id')->on('users')->onDelete('CASCADE');
             $table->timestamps();
         });
     }

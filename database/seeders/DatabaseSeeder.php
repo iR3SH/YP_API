@@ -21,34 +21,36 @@ class DatabaseSeeder extends Seeder
      * @return void
      * @throws Exception
      */
-
-    /*
-     * SQL Sentences to Keep Data
-        SELECT
-            users.`name`,
-            users.lastName,
-            users.email,
-            users.`password`,
-            users.gender,
-            users.phoneNumber,
-            users.city,
-            users_preferences.activities,
-            users_preferences.musicStyles,
-            users_preferences.redFlags,
-            users_preferences.languages,
-            users_preferences.moviePref,
-            users_preferences.genderPref,
-            users_preferences.distancePref
-        FROM
-            users,
-            users_preferences
-        WHERE
-            users_preferences.idUser = users.id
-     */
     public function run()
     {
         $faker = Faker::create('fr_FR');
-
+        $avantage1 = [
+            'canUseExtraFilter' => '1',
+            'canSeeWhoLiked' => '1',
+            'canReceiveDailyExtraLike' => '0',
+            'canGoBack' => '0',
+            'isPremiumProfil' => '0',
+            'price' => '15.00',
+        ];
+        Avantages::create($avantage1);
+        $avantage2 = [
+            'canUseExtraFilter' => '1',
+            'canSeeWhoLiked' => '1',
+            'canReceiveDailyExtraLike' => '1',
+            'canGoBack' => '0',
+            'isPremiumProfil' => '1',
+            'price' => '25.00',
+        ];
+        Avantages::create($avantage2);
+        $avantage3 = [
+            'canUseExtraFilter' => '1',
+            'canSeeWhoLiked' => '1',
+            'canReceiveDailyExtraLike' => '1',
+            'canGoBack' => '1',
+            'isPremiumProfil' => '1',
+            'price' => '40.00',
+        ];
+        Avantages::create($avantage3);
         for($i = 0; $i < 500; $i++)
         {
             $gender = $faker->randomElement(['Homme', 'Autres', 'Femme', 'Femme', 'Femme', 'Homme', 'Homme', 'Homme', 'Homme', 'Homme']);
@@ -82,7 +84,7 @@ class DatabaseSeeder extends Seeder
             UsersPreferences::create($data);
             $calc = random_int(1, 100);
             if ($calc <= 30) {
-                $avantage = Avantages::where('id', random_int(1, 4))->get();
+                $avantage = Avantages::where('id', random_int(1, 3))->get();
                 $data = [
                     'idUser' => $user->getAttribute('id'),
                     'timestamp' => date("y-m-d H:i"),
