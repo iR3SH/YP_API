@@ -64,7 +64,7 @@ class DatabaseSeeder extends Seeder
             $gender = $faker->randomElement(['Homme', 'Autres', 'Femme', 'Femme', 'Femme', 'Homme', 'Homme', 'Homme', 'Homme', 'Homme']);
 
             $userData = [
-                "email" => $faker->email,
+                "email" => $faker->unique()->email,
                 'name' => $faker->name($gender),
                 'lastName' => $faker->lastName,
                 'password' => Hash::make($faker->password),
