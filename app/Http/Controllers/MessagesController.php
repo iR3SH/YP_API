@@ -27,13 +27,13 @@ class MessagesController extends Controller
      *         name="idUser",
      *         in="query",
      *         description="id of the User who has conversation",
-     *         required=true,
+     *         required=false,
      *      ),
      *      @OA\Parameter(
      *         name="idConversation",
      *         in="query",
      *         description="id of the conversation",
-     *         required=true,
+     *         required=false,
      *      ),
      *      @OA\Response(
      *          response=200,
@@ -57,7 +57,6 @@ class MessagesController extends Controller
         $messages = null;
         $user = null;
         $conversation = null;
-
         if($request->get('idUser') != null){
             $user = User::where('id', $request->get('idUser'))->get();
             if(count($user) == 0) {
@@ -70,29 +69,25 @@ class MessagesController extends Controller
             if(count($conversation) == 0){
                 return $this->sendError("The specified conversation wasn't found");
             }
-            return $this->sendResponse($messages, "Message from conversation has been found");
         }
 
         if($user != null && $conversation != null){
-            $messages = Messages::where('idUser', $user->id)->where('idConversation', $conversation->id)->get();
+            $messages = Messages::where('idUser', $user[0]->id)->where('idConversation', $conversation[0]->id)->get();
             if(count($messages) == 0) {
                 $this->sendError("Message wasn't found for the specified conversation and User");
             }
-            return $this->sendResponse($messages, "Message from conversation has been found");
         }
-        else if($user != null && $conversation == null){
-            $messages = Messages::where('idUser', $user->id)->get();
+        else if(count($messages) != 0 && count($conversation) == 0){
+            $messages = Messages::where('idUser', $user[0]->id)->get();
             if(count($messages) == 0) {
                 $this->sendError("Message wasn't found for the specified conversation and User");
             }
-            return $this->sendResponse($messages, "Message from conversation has been found");
         }
-        else if($user == null && $conversation != null){
-            $messages = Messages::where('idConversation', $conversation->id)->get();
+        else if(count($messages) == 0 && count($conversation) != 0){
+            $messages = Messages::where('idConversation', $conversation[0]->id)->get();
             if(count($messages) == 0) {
                 $this->sendError("Message wasn't found for the specified conversation and User");
             }
-            return $this->sendResponse($messages, "Message from conversation has been found");
         }
 
         return $this->sendResponse($messages, "Message from conversation has been found");
