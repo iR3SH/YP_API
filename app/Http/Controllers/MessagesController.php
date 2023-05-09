@@ -70,6 +70,7 @@ class MessagesController extends Controller
             if(count($conversation) == 0){
                 return $this->sendError("The specified conversation wasn't found");
             }
+            return $this->sendResponse($messages, "Message from conversation has been found");
         }
 
         if($user != null && $conversation != null){
@@ -77,18 +78,21 @@ class MessagesController extends Controller
             if(count($messages) == 0) {
                 $this->sendError("Message wasn't found for the specified conversation and User");
             }
+            return $this->sendResponse($messages, "Message from conversation has been found");
         }
         else if($user != null && $conversation == null){
             $messages = Messages::where('idUser', $user->id)->get();
             if(count($messages) == 0) {
                 $this->sendError("Message wasn't found for the specified conversation and User");
             }
+            return $this->sendResponse($messages, "Message from conversation has been found");
         }
         else if($user == null && $conversation != null){
             $messages = Messages::where('idConversation', $conversation->id)->get();
             if(count($messages) == 0) {
                 $this->sendError("Message wasn't found for the specified conversation and User");
             }
+            return $this->sendResponse($messages, "Message from conversation has been found");
         }
 
         return $this->sendResponse($messages, "Message from conversation has been found");

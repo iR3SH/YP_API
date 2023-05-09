@@ -25,7 +25,7 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('auth/login');
 });
-Route::get('/storage/app/public/{filename}', function($filename){
+Route::get('/api/public/{filename}', function($filename){
     $path = storage_path() . '/app/public/' . $filename;
 
     if(!File::exists($path)) {
