@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Photos;
 use App\Models\User;
 use App\Models\UsersPreferences;
 use Illuminate\Http\JsonResponse;
@@ -194,7 +195,9 @@ class UserController extends Controller
      */
     public function show(User $user) : JsonResponse
     {
-        return $this->sendResponse($user, "User sent successfully");
+        $photos = Photos::where('idUser', $user->id)->get();
+        $array = [$user, $photos];
+        return $this->sendResponse($array, "User sent successfully");
     }
 
     /**

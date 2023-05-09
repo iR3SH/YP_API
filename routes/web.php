@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +25,21 @@ Route::get('/', function () {
 Route::get('/login', function () {
     return view('auth/login');
 });
+Route::get('/storage/app/public/{filename}', function($filename){
+    $path = storage_path() . '/app/public/' . $filename;
 
+    if(!File::exists($path)) {
+        return response()->json(['message' => 'Image not found.'], 404);
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+});
 /*
  * POST Routes
  */
