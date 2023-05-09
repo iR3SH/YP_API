@@ -43,16 +43,16 @@ class ConversationsController extends Controller
     public function index(Request $request): JsonResponse
     {
         $request->validate([
-            'iduser' => 'required'
+            'idUser' => 'required'
         ]);
         $conversationFirstUser = Conversations::where('idFirstUser', $request->get('idUser'))->get();
         $conversationSecondUser = Conversations::where('idSecondUser', $request->get('idUser'))->get();
         $array = [];
         if(count($conversationFirstUser) > 0) {
-            $array->array_push($conversationFirstUser);
+            array_push($array, $conversationFirstUser);
         }
         if(count($conversationSecondUser) > 0) {
-            $array->array_push($conversationSecondUser);
+            array_push($array, $conversationSecondUser);
         }
         return $this->sendResponse($array, "Conversations from User sended");
     }
@@ -84,7 +84,7 @@ class ConversationsController extends Controller
      *      @OA\Parameter(
      *         name="idFirstUser",
      *         in="query",
-     *         description="iid of the first User",
+     *         description="id of the first User",
      *         required=true,
      *      ),
      *      @OA\Parameter(

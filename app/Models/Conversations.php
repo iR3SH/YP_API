@@ -10,7 +10,7 @@ class Conversations extends Model
     use HasFactory;
 
     protected $fillable = [
-        "idFisrtUser",
+        "idFirstUser",
         "idSecondUser",
         "Messages",
     ];
