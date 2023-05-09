@@ -47,7 +47,7 @@ class PhotosController extends Controller
         $request->validate([
             'idUser' => 'required'
         ]);
-        $photos = Photos::where('idUser', $request->get('idUser'));
+        $photos = Photos::where('idUser', $request->get('idUser'))->get();
 
         return $this->sendResponse($photos, "User photos founded");
     }
@@ -213,7 +213,7 @@ class PhotosController extends Controller
      * @param Photos $photo
      * @return array
      */
-    public function edit(Request $request, Photos $photo): array
+    public function edit(Request $request, Photos $photo)
     {
     }
 
