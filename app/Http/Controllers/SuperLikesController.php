@@ -107,7 +107,7 @@ class SuperLikesController extends Controller
             'idUser2' => $request->get('idUserWhoBeLiked')
         ]);
         $conversation = Conversations::create([
-            'idFisrtUser' => $request->get('idUserWhoLiked'),
+            'idFirstUser' => $request->get('idUserWhoLiked'),
             'idSecondUser' => $request->get('idUserWhoBeLiked')
         ]);
         return $this->sendResponse([$superlikes, $match, $conversation], "SuperLiked Successfully");
