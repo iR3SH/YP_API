@@ -43,7 +43,6 @@ class DislikesController extends Controller
     public function index(Request $request): JsonResponse
     {
         $Dislikes = null;
-        $array = [];
         if($request->get('idWhoDisliked') != null) {
             $Dislikes = Dislikes::where('idWhoDisliked', $request->get('idWhoDisliked'))->get();
         }
@@ -84,6 +83,18 @@ class DislikesController extends Controller
      *      summary="Create Dislikes",
      *      description="Returns created Dislikes",
      *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idWhoDisliked",
+     *         in="query",
+     *         description="id from the User",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idWhoBeDisliked",
+     *         in="query",
+     *         description="id of the Disliked user",
+     *         required=true,
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="successful operation",

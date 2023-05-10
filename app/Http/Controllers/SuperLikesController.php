@@ -102,7 +102,10 @@ class SuperLikesController extends Controller
         ]);
 
         $superlikes = SuperLikes::create($request->all());
-        $match = Matchs::create($request->all());
+        $match = Matchs::create([
+            'idUser' => $request->get('idUserWhoLiked'),
+            'idUser2' => $request->get('idUserWhoBeLiked')
+        ]);
         $conversation = Conversations::create([
             'idFisrtUser' => $request->get('idUserWhoLiked'),
             'idSecondUser' => $request->get('idUserWhoBeLiked')
