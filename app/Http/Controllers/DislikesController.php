@@ -3,23 +3,61 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dislikes;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class DislikesController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return array
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function index(): array
+    /**
+     * @OA\Get(
+     *      path="/api/dislikes",
+     *      operationId="indexDislikes",
+     *      tags={"Dislikes"},
+     *      summary="Get list of Dislikes",
+     *      description="Returns list of Dislikes",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idWhoDisliked",
+     *         in="query",
+     *         description="id of the Dislike",
+     *         required=false,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns list of Likes
+     */
+    public function index(Request $request): JsonResponse
     {
-        $Dislikes = Dislikes::lastest()->paginate(10);
+        $Dislikes = null;
+        $array = [];
+        if($request->get('idWhoDisliked') != null) {
+            $Dislikes = Dislikes::where('idWhoDisliked', $request->get('idWhoDisliked'))->get();
+        }
+        else{
+            $Dislikes = Dislikes::lastest()->paginate(10);
+        }
 
-        return [
-            "status" => 1,
-            "data" => $Dislikes,
-        ];
+        if($Dislikes != null) {
+            return $this->sendResponse($Dislikes, "Dislikes found");
+        }
+        else
+        {
+            return $this->sendError('User has none dislikes');
+        }
     }
 
     /**
@@ -36,35 +74,71 @@ class DislikesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return array
+     * @return JsonResponse
      */
-    public function store(Request $request): array
+    /**
+     * @OA\Post(
+     *      path="/api/dislikes",
+     *      operationId="storeDislikes",
+     *      tags={"Dislikes"},
+     *      summary="Create Dislikes",
+     *      description="Returns created Dislikes",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns created Dislikes
+     */
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
-            "idUserWhoDisliked" => 'required',
-            "idUserWhoBeDisliked" => 'required',
+            "idWhoDisliked" => 'required',
+            "idWhoBeDisliked" => 'required',
         ]);
 
         $Dislikes = Dislikes::create($request->all());
 
-        return [
-            "status" => 1,
-            "data" => $Dislikes,
-        ];
+        return $this->sendResponse($Dislikes, "Dislikes created successfully");
     }
 
     /**
-     * Display the specified resource.
+     * @OA\Get(
+     *      path="/api/dislikes/{id}",
+     *      operationId="showDislikes",
+     *      tags={"Dislikes"},
+     *      summary="Get Dislikes",
+     *      description="Returns Dislikes",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id of the Dislike",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
      *
-     * @param Dislikes $Dislikes
-     * @return array
+     * Returns Dislikes
      */
-    public function show(Dislikes $Dislikes): array
+    public function show(Dislikes $dislike): JsonResponse
     {
-        return [
-            'status' => 1,
-            'data' => $Dislikes
-        ];
+        return $this->sendResponse($dislike, "Dislike Founded");
     }
 
     /**
@@ -87,8 +161,8 @@ class DislikesController extends Controller
     public function update(Request $request, Dislikes $Dislikes): array
     {
         $request->validate([
-            "idUserWhoDisliked" => 'required',
-            "idUserWhoBeDisliked" => 'required',
+            "idWhoDisliked" => 'required',
+            "idWhoBeDisliked" => 'required',
         ]);
 
         $Dislikes->update($request->all());
@@ -105,13 +179,36 @@ class DislikesController extends Controller
      * @param Dislikes $Dislikes
      * @return array
      */
-    public function destroy(Dislikes $Dislikes): array
+    /**
+     * @OA\Delete(
+     *      path="/api/dislikes/{id}",
+     *      operationId="destroyDislikes",
+     *      tags={"Dislikes"},
+     *      summary="Delete a Dislikes",
+     *      description="Returns the deleted Dislike",
+     *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="id of the Dislike",
+     *         required=true,
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="successful operation",
+     *           @OA\JsonContent(
+     *             @OA\Property(property="status", type="integer", example="200"),
+     *             @OA\Property(property="data",type="object"),
+     *             @OA\Property(property="message",type="string")
+     *          )
+     *       )
+     * )
+     *
+     * Returns the deleted Dislike
+     */
+    public function destroy(Dislikes $dislike): JsonResponse
     {
-        $Dislikes->delete();
-        return [
-            "status" => 1,
-            "msg" => "Dislikes deleted successfully",
-            "data" => $Dislikes,
-        ];
+        $dislike->delete();
+        return $this->sendResponse($dislike, "Deleted successfully");
     }
 }

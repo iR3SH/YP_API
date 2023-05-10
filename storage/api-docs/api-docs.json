@@ -843,7 +843,7 @@
                     {
                         "name": "idFirstUser",
                         "in": "query",
-                        "description": "iid of the first User",
+                        "description": "id of the first User",
                         "required": true
                     },
                     {
@@ -942,6 +942,182 @@
                         "name": "id",
                         "in": "path",
                         "description": "id of the conversation",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/dislikes": {
+            "get": {
+                "tags": [
+                    "Dislikes"
+                ],
+                "summary": "Get list of Dislikes",
+                "description": "Returns list of Dislikes",
+                "operationId": "indexDislikes",
+                "parameters": [
+                    {
+                        "name": "idWhoDisliked",
+                        "in": "query",
+                        "description": "id of the Dislike",
+                        "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Dislikes"
+                ],
+                "summary": "Create Dislikes",
+                "description": "Returns created Dislikes",
+                "operationId": "storeDislikes",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/dislikes/{id}": {
+            "get": {
+                "tags": [
+                    "Dislikes"
+                ],
+                "summary": "Get Dislikes",
+                "description": "Returns Dislikes",
+                "operationId": "showDislikes",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the Dislike",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Dislikes"
+                ],
+                "summary": "Delete a Dislikes",
+                "description": "Returns the deleted Dislike",
+                "operationId": "destroyDislikes",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of the Dislike",
                         "required": true
                     }
                 ],
@@ -1611,13 +1787,13 @@
                         "name": "idUser",
                         "in": "query",
                         "description": "id of the User who has conversation",
-                        "required": true
+                        "required": false
                     },
                     {
                         "name": "idConversation",
                         "in": "query",
                         "description": "id of the conversation",
-                        "required": true
+                        "required": false
                     }
                 ],
                 "responses": {
