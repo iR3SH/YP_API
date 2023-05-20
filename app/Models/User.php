@@ -29,6 +29,8 @@ class User extends Authenticatable
         'city',
         'verified',
         'description',
+        'superLikeCount',
+        'google_id'
     ];
 
     /**

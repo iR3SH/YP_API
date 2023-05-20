@@ -147,7 +147,6 @@ class UserController extends Controller
         $inputs['password'] = Hash::make($request->get('password'));
         $user = User::create($inputs);
         $dataUserPref = [
-            'activities' => 0,
             'musicStyles' => '',
             'redFlags' => '',
             'languages' => '',
@@ -226,6 +225,36 @@ class UserController extends Controller
      *      summary="Update one user",
      *      description="Returns data's of the user",
      *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         description="Id of the user",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="email",
+     *         in="query",
+     *         description="email of the user",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="phoneNumber",
+     *         in="query",
+     *         description="phoneNumber of the user",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="password",
+     *         in="query",
+     *         description="password of the user",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="superLikeCount",
+     *         in="query",
+     *         description="superLikeCount of the user",
+     *         required=true,
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="successful operation",
@@ -244,6 +273,7 @@ class UserController extends Controller
             'email' => 'required|unique:users',
             'phoneNumber' => 'required|unique:users',
             'password' => 'required',
+            'superLikeCount' => 'required'
         ]);
         $inputs = $request->all();
         if(!Hash::check($user->getAttribute('password'), Hash::make($request->get('password')))) {

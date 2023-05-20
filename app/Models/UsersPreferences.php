@@ -10,7 +10,6 @@ class UsersPreferences extends Model
     use HasFactory;
 
     protected $fillable = [
-        "activities",
         "musicsStyles",
         "redFlages",
         "languages",

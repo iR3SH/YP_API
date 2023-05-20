@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ReportedUsers;
+use Facade\FlareClient\Report;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -125,7 +126,10 @@ class ReportedUsersController extends Controller
             "reportedUser" => 'required',
             "userWhoReported" => 'required',
         ]);
-
+        $verif = ReportedUsers::where('reportedUser',$request->get('reportedUser'))->where('userWhoReported', $request->get('userWhoReported'))->get();
+        if(count($verif) > 0){
+            return $this->sendError('User already reported');
+        }
         $reportedUsers = ReportedUsers::create($request->all());
 
         return $this->sendResponse($reportedUsers, "User reported successfully");

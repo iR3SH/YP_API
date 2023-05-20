@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\BlockedUsers;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -10,17 +11,40 @@ class BlockedUsersController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return array
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function index(): array
+    public function index(Request $request): JsonResponse
     {
-        $blockedUsers = BlockedUsers::lastest()->paginate(10);
+        $blockedUserId = null;
+        $currentUserId = null;
+        if($request->get('idBlockedUser') != null) {
+            $blockedUserId = $request->get('idBlockedUser');
+        }
+        if($request->get('idUserWhoBlocked') != null) {
+            $currentUserId = $request->get('idUserWhoBlocked');
+        }
 
-        return [
-            "status" => 1,
-            "data" => $blockedUsers,
-        ];
+        if($blockedUserId != null && $currentUserId != null){
+            $blockedUser = BlockedUsers::where('idBlockedUser', $blockedUserId)->where('idUserWhoBlocked', $currentUserId)->get();
+            if(count($blockedUser) > 0) {
+                return $this->sendResponse($blockedUser, 'Blocked User found');
+            }
+        }
+        else if($blockedUserId == null && $currentUserId != null){
+            $blockedUser = BlockedUsers::where('idUserWhoBlocked', $currentUserId)->get();
+            if(count($blockedUser) > 0) {
+                return $this->sendResponse($blockedUser, 'Blocked Users found');
+            }
+        }
+        else{
+            $blockedUser = BlockedUsers::all();
+            if(count($blockedUser) > 0) {
+                return $this->sendResponse($blockedUser, 'Blocked Users found');
+            }
+        }
+
+        return $this->sendError("Blocked user not found");
     }
 
     /**
@@ -37,87 +61,63 @@ class BlockedUsersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return array
+     * @return JsonResponse
      */
-    public function store(Request $request): array
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
-            "reason" => 'required',
-            "content" => 'required',
-            "reportedUser" => 'required',
-            "userWhoReported" => 'required',
+            "idBlockedUser" => 'required',
+            "idUserWhoBlocked" => 'required',
         ]);
-
+        $verif = BlockedUsers::where('idBlockedUser', $request->get('idBlockedUser'))->where('idUserWhoBlocked', $request->get('idUserWhoBlocked'))->get();
+        if(count($verif) > 0){
+            return $this->sendError("Already blocked");
+        }
         $blockedUsers = BlockedUsers::create($request->all());
 
-        return [
-            "status" => 1,
-            "data" => $blockedUsers,
-        ];
+        return $this->sendResponse($blockedUsers, "User blocked successfully");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param BlockedUsers $blockedUsers
-     * @return array
+     * @param BlockedUsers $blockedUser
+     * @return JsonResponse
      */
-    public function show(BlockedUsers $blockedUsers): array
+    public function show(BlockedUsers $blockedUser): JsonResponse
     {
-        return [
-            'status' => 1,
-            'data' => $blockedUsers
-        ];
+        return $this->sendResponse($blockedUser, "Blocked User founded");
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param BlockedUsers $blockedUsers
+     * @param BlockedUsers $blockedUser
      * @return Response
      */
-    public function edit(BlockedUsers $blockedUsers)
+    public function edit(BlockedUsers $blockedUser)
     {
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  Request  $request
-     * @param BlockedUsers $blockedUsers
-     * @return array
+     * @return JsonResponse
      */
-    public function update(Request $request, BlockedUsers $blockedUsers): array
+    public function update(): JsonResponse
     {
-        $request->validate([
-            "reason" => 'required',
-            "content" => 'required',
-            "reportedUser" => 'required',
-            "userWhoReported" => 'required',
-            "isClosed" => 'required',
-        ]);
-
-        $blockedUsers->update($request->all());
-        return [
-            "status" => 1,
-            "data" => $blockedUsers,
-            "msg" => "BlockedUser updated successfully",
-        ];
+        return $this->sendError('Not in Use');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param BlockedUsers $blockedUsers
-     * @return array
+     * @param BlockedUsers $blockedUser
+     * @return JsonResponse
      */
-    public function destroy(BlockedUsers $blockedUsers): array
+    public function destroy(BlockedUsers $blockedUser): JsonResponse
     {
-        $blockedUsers->delete();
-        return [
-            "status" => 1,
-            "msg" => "BlockedUser deleted successfully",
-            "data" => $blockedUsers,
-        ];
+        $blockedUser->delete();
+        return $this->sendResponse($blockedUser, 'User unblocked successfully !');
     }
 }

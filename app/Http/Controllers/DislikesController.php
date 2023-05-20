@@ -114,7 +114,10 @@ class DislikesController extends Controller
             "idWhoDisliked" => 'required',
             "idWhoBeDisliked" => 'required',
         ]);
-
+        $verif = Dislikes::where('idWhoDisliked', $request->get('idWhoDisliked'))->where('idWhoBeDisliked', $request->get('idWhoBeDisliked'))->get();
+        if(count($verif) > 0){
+            return $this->sendError('User already disliked');
+        }
         $Dislikes = Dislikes::create($request->all());
 
         return $this->sendResponse($Dislikes, "Dislikes created successfully");

@@ -1,6 +1,35 @@
+**17/05/2023**
+- Adding AdminUser in DatabaseSeeder
+- simpleSearch Algo. v2.1 -> Adding default list when user doesn't registered activities
+- Adding AdminPanelController for User's stats
+- Adding Admin Verification for Controller
+
+**16/05/2023**
+- simpleSearch Algo. v2
+- premiumSearch Algo. v2
+- Enhanced BlockedUserController 
+- Adding duplication security to BannedUserController
+- Adding duplication security to DislikesController
+- Adding duplication security to SuperLikesController
+- Adding duplication security to ReportedUsersController
+- Begin Google Connection with https://www.itsolutionstuff.com/post/laravel-8-socialite-login-with-google-account-exampleexample.html
+- Adding super like count for User's
+- Adding Super like count verification in SuperLikesController
+- Fix SubscriptionsController
+- Adding GetAllActivities with specified Type in ActivitiesController
+- Adding function to get bonus point from Premium User's
+- Column Activities in User Preferences Table was Deleted
+
+**15/05/2023**
+- Adding Activities Seed
+- Adding Activities SQL View
+- Adding canBeSearch function to know if we can take a profile for the Search
+- Adding first Algo. to search without premium filters
+- Adding second Algo. to search with premium filters
+
 **02/05/2023**
 * Adding 6 Fake Default Photos to all Users in seed
-* Adding Complet Seeding for Activities
+* Adding Complete Seeding for Activities
 * Adding some reference to table name in some Model
 * 1 Column was refactored to 'name'
 * Adding Messages to Swagger

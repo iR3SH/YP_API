@@ -27,6 +27,8 @@ class CreateUsersTable extends Migration
             $table->string('city');
             $table->string('description')->nullable()->default('');
             $table->boolean('verified')->default(false);
+            $table->integer('superLikeCount')->default(0);
+            $table->string('google_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

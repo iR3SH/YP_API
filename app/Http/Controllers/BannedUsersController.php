@@ -111,6 +111,10 @@ class BannedUsersController extends Controller
             "idUser" => 'required',
             "idAdmin" => 'required',
         ]);
+        $verif = BannedUsers::where('idUser', $request->get('idUser'))->get();
+        if(count($verif) > 0){
+            return $this->sendError("User already banned");
+        }
         if($this->isAdminUser($request->idAdmin)) {
             $data = $request->all();
             $data->array_push(['timestamp' => time()]);

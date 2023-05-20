@@ -6,6 +6,7 @@ use App\Models\Conversations;
 use App\Models\Matchs;
 use App\Models\Messages;
 use App\Models\SuperLikes;
+use App\Models\User;
 use http\Client\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -100,8 +101,17 @@ class SuperLikesController extends Controller
             "idUserWhoLiked" => 'required',
             "idUserWhoBeLiked" => 'required',
         ]);
-
+        $verif = SuperLikes::where('idUserWhoLiked', $request->get('idUserWhoLiked'))->where('idUserWhoBeLiked', $request->get('idUserWhoBeLiked'))->get();
+        if(count($verif) > 0){
+            return $this->sendError('Already SuperLiked');
+        }
+        $verif2= User::where('id', $request->get('idUserWhoLiked'))->get()[0];
+        if($verif2->superLikeCount == 0){
+            return $this->sendError("User doesn't have enough super likes");
+        }
         $superlikes = SuperLikes::create($request->all());
+        $verif2->superLikeCount -= 1;
+        $verif2->save();
         $match = Matchs::create([
             'idUser' => $request->get('idUserWhoLiked'),
             'idUser2' => $request->get('idUserWhoBeLiked')

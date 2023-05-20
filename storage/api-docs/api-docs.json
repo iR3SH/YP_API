@@ -2,7 +2,7 @@
     "openapi": "3.0.0",
     "info": {
         "title": "YP API",
-        "version": "0.1"
+        "version": "2.5"
     },
     "paths": {
         "/api/activities": {
@@ -13,6 +13,14 @@
                 "summary": "Get list of Activities",
                 "description": "Returns list of Activities",
                 "operationId": "indexActivities",
+                "parameters": [
+                    {
+                        "name": "type",
+                        "in": "query",
+                        "description": "type of the activity",
+                        "required": false
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -241,6 +249,53 @@
                         "in": "query",
                         "description": "idSport of the activity",
                         "required": false
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/adminPanel": {
+            "get": {
+                "tags": [
+                    "AdminPanel"
+                ],
+                "summary": "Get list of User's Stats",
+                "description": "Returns list of User's Stats",
+                "operationId": "showAdminPanel",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id from the current User",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -1029,6 +1084,20 @@
                 "summary": "Create Dislikes",
                 "description": "Returns created Dislikes",
                 "operationId": "storeDislikes",
+                "parameters": [
+                    {
+                        "name": "idWhoDisliked",
+                        "in": "query",
+                        "description": "id from the User",
+                        "required": true
+                    },
+                    {
+                        "name": "idWhoBeDisliked",
+                        "in": "query",
+                        "description": "id of the Disliked user",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -2554,6 +2623,100 @@
                 ]
             }
         },
+        "/api/searchPremium": {
+            "get": {
+                "tags": [
+                    "SearchPremium"
+                ],
+                "summary": "Get list of User",
+                "description": "Returns list of User",
+                "operationId": "showSearchPremium",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id from the current User",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
+        "/api/simpleSearch": {
+            "get": {
+                "tags": [
+                    "SimpleSearch"
+                ],
+                "summary": "Get list of User",
+                "description": "Returns list of User",
+                "operationId": "showsimpleSearch",
+                "parameters": [
+                    {
+                        "name": "idUser",
+                        "in": "query",
+                        "description": "id from the current User",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/api/superLikes": {
             "get": {
                 "tags": [
@@ -3017,6 +3180,38 @@
                 "summary": "Update one user",
                 "description": "Returns data's of the user",
                 "operationId": "update",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "description": "email of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "phoneNumber",
+                        "in": "query",
+                        "description": "phoneNumber of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "password of the user",
+                        "required": true
+                    },
+                    {
+                        "name": "superLikeCount",
+                        "in": "query",
+                        "description": "superLikeCount of the user",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "successful operation",
@@ -3285,12 +3480,6 @@
                 "operationId": "storeuserspreferences",
                 "parameters": [
                     {
-                        "name": "activities",
-                        "in": "query",
-                        "description": "activities for the new User",
-                        "required": true
-                    },
-                    {
                         "name": "musicsStyles",
                         "in": "query",
                         "description": "musicsStyles for the new User",
@@ -3365,12 +3554,6 @@
                 "description": "Returns a Users Preferences",
                 "operationId": "updateuserspreferences",
                 "parameters": [
-                    {
-                        "name": "activities",
-                        "in": "query",
-                        "description": "activities for the new User",
-                        "required": true
-                    },
                     {
                         "name": "musicsStyles",
                         "in": "query",
@@ -3567,7 +3750,7 @@
                 "operationId": "storeUsersPrefsActivities",
                 "parameters": [
                     {
-                        "name": "idUser",
+                        "name": "idUserPref",
                         "in": "query",
                         "description": "id of the User who ask the request",
                         "required": true

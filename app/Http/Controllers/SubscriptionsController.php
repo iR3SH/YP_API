@@ -2,24 +2,32 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BuyLogs;
 use App\Models\Subscriptions;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SubscriptionsController extends Controller
 {
     /**
      * Display a listing of the resource.
-     *
-     * @return array
+     * @param Request $request
+     * @return JsonResponse
      */
-    public function index(): array
+    public function index(Request $request): JsonResponse
     {
-        $Subscriptions = Subscriptions::lastest()->paginate(10);
-
-        return [
-            "status" => 1,
-            "data" => $Subscriptions,
-        ];
+        $request->validate([
+            'idUser' => 'required'
+        ]);
+        $user = User::where('id', $request->get('idUser'))->get()[0];
+        $subscription = Subscriptions::where('idUser', $user->id)->get();
+        if(count($subscription) > 0){
+            return $this->sendResponse($subscription, "Subscription for User has been found");
+        }
+        else {
+            return $this->sendError('No subscription has been found');
+        }
     }
 
     /**
@@ -36,9 +44,9 @@ class SubscriptionsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  Request  $request
-     * @return array
+     * @return JsonResponse
      */
-    public function store(Request $request): array
+    public function store(Request $request): JsonResponse
     {
         $request->validate([
             "idUser" => 'required',
@@ -46,36 +54,38 @@ class SubscriptionsController extends Controller
             "nextCost" => 'required',
             "idAvantage" => 'required',
         ]);
+        $verif = Subscriptions::where('idUser', $request->get('idUser'))->get();
+        if(count($verif) > 0){
+            return $this->sendError("This user already have a subscription");
+        }
+        $subscription = Subscriptions::create($request->all());
+        BuyLogs::create([
+            'idUser' => $request->get('idUser'),
+            'idSubscription' => $subscription->id,
+            'cost' => $request->get('nextCost')
 
-        $Subscriptions = Subscriptions::create($request->all());
-
-        return [
-            "status" => 1,
-            "data" => $Subscriptions,
-        ];
+        ]);
+        return $this->sendResponse($subscription, "Subscription registered successfully !");
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Subscriptions $Subscriptions
-     * @return array
+     * @param Subscriptions $subscription
+     * @return JsonResponse
      */
-    public function show(Subscriptions $Subscriptions): array
+    public function show(Subscriptions $subscription): JsonResponse
     {
-        return [
-            'status' => 1,
-            'data' => $Subscriptions
-        ];
+        return $this->sendResponse($subscription, "Subscription found");
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Subscriptions $Subscriptions
+     * @param Subscriptions $subscription
      * @return Response
      */
-    public function edit(Subscriptions $Subscriptions)
+    public function edit(Subscriptions $subscription)
     {
     }
 
@@ -83,37 +93,29 @@ class SubscriptionsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  Request  $request
-     * @param Subscriptions $Subscriptions
-     * @return array
+     * @param Subscriptions $subscription
+     * @return JsonResponse
      */
-    public function update(Request $request, Subscriptions $Subscriptions): array
+    public function update(Request $request, Subscriptions $subscription): JsonResponse
     {
         $request->validate([
             "timestamp" => 'required',
             "nextCost" => 'required',
         ]);
 
-        $Subscriptions->update($request->all());
-        return [
-            "status" => 1,
-            "data" => $Subscriptions,
-            "msg" => "Subscriptions updated successfully"
-        ];
+        $subscription->update($request->all());
+        return $this->sendResponse($subscription, 'Subscription updated successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Subscriptions $Subscriptions
-     * @return array
+     * @param Subscriptions $subscription
+     * @return JsonResponse
      */
-    public function destroy(Subscriptions $Subscriptions): array
+    public function destroy(Subscriptions $subscription): JsonResponse
     {
-        $Subscriptions->delete();
-        return [
-            "status" => 1,
-            "msg" => "Subscriptions deleted successfully",
-            "data" => $Subscriptions,
-        ];
+        $subscription->delete();
+        return $this->sendResponse($subscription, "Subscription cancelled successfully");
     }
 }

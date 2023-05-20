@@ -15,8 +15,6 @@ class CreateUsersPreferencesTable extends Migration
     {
         Schema::create('users_preferences', function (Blueprint $table) {
             $table->id();
-            $table->integer('activities')->nullable();
-            $table->foreign('activities')->references('id')->on('activities')->onDelete('CASCADE');
             $table->string('musicStyles')->nullable();
             $table->string('redFlags')->nullable();
             $table->string('languages')->nullable();

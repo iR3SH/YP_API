@@ -81,7 +81,7 @@ class UsersPrefsActivitiesController extends Controller
      *      description="Returns a UsersPrefsActivities",
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
-     *         name="idUser",
+     *         name="idUserPref",
      *         in="query",
      *         description="id of the User who ask the request",
      *         required=true,

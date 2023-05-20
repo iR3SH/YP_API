@@ -69,12 +69,6 @@ class UsersPreferencesController extends Controller
      *      description="Returns a new Users Preferences",
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
-     *         name="activities",
-     *         in="query",
-     *         description="activities for the new User",
-     *         required=true,
-     *      ),
-     *      @OA\Parameter(
      *         name="musicsStyles",
      *         in="query",
      *         description="musicsStyles for the new User",
@@ -125,7 +119,6 @@ class UsersPreferencesController extends Controller
     public function store(Request $request) : JsonResponse
     {
         $request->validate([
-            "activities" => 'string',
             "musicsStyles" => 'string',
             "redFlags" => 'string',
             "languages" => 'string',
@@ -219,12 +212,6 @@ class UsersPreferencesController extends Controller
      *      description="Returns a Users Preferences",
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
-     *         name="activities",
-     *         in="query",
-     *         description="activities for the new User",
-     *         required=true,
-     *      ),
-     *      @OA\Parameter(
      *         name="musicsStyles",
      *         in="query",
      *         description="musicsStyles for the new User",
@@ -270,7 +257,6 @@ class UsersPreferencesController extends Controller
     public function update(Request $request, UsersPreferences $usersPreference) : JsonResponse
     {
         $request->validate([
-            "activities" => 'string',
             "musicsStyles" => 'string',
             "redFlags" => 'string',
             "languages" => 'string',

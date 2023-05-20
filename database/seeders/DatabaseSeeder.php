@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Activities;
 use App\Models\ActivitiesType;
+use App\Models\AdminUsers;
 use App\Models\Avantages;
 use App\Models\Consoles;
 use App\Models\Jeux;
@@ -15,7 +16,9 @@ use App\Models\Sports;
 use App\Models\Subscriptions;
 use App\Models\SuperLikes;
 use App\Models\User;
+use App\Models\UsersActivities;
 use App\Models\UsersPreferences;
+use App\Models\UsersPrefsActivities;
 use Exception;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -80,7 +83,6 @@ class DatabaseSeeder extends Seeder
         foreach($allUsers as $user) {
 
             $data = [
-                'activities' => random_int(1, 5),
                 'musicStyles' => $faker->randomElement(["Rock", "Pop", "Rap", "Jazz", "Classic"]),
                 'redFlags' => $faker->randomElement(["Fumeurs", "Vegan", "Meet Eater", "Gamers", "Feminist"]),
                 'languages' => $faker->randomElement(["Français", "English", "Deutsch", "Suisse"]),
@@ -693,36 +695,36 @@ class DatabaseSeeder extends Seeder
             ]);
             // Jeux Offline
             Activities::create([
-                'type' => '3',
+                'type' => '4',
                 'idJeux' => '19'
             ]);
             Activities::create([
-                'type' => '3',
+                'type' => '4',
                 'idJeux' => '20'
             ]);
             Activities::create([
-                'type' => '3',
+                'type' => '4',
                 'idJeux' => '21'
             ]);
             Activities::create([
-                'type' => '3',
+                'type' => '4',
                 'idJeux' => '22'
             ]);
             Activities::create([
-                'type' => '3',
+                'type' => '4',
                 'idJeux' => '23'
             ]);
             Activities::create([
-                'type' => '3',
+                'type' => '4',
                 'idJeux' => '24'
             ]);
             Activities::create([
-                'type' => '3',
+                'type' => '4',
                 'idJeux' => '25'
             ]);
             // Sorties (Jour)
             Activities::create([
-                'type' => '4',
+                'type' => '5',
                 'idSortie' => '1'
             ]);
             Activities::create([
@@ -795,6 +797,7 @@ class DatabaseSeeder extends Seeder
                 'idSortie' => '18'
             ]);
 
+            // Users pics
         foreach($allUsers as $usr){
             Photos::create([
                 'fileName' => 'utilisateur1.png',
@@ -826,6 +829,76 @@ class DatabaseSeeder extends Seeder
                 'position' => '6',
                 'idUser' => $usr->getAttribute('id')
             ]);
+
+            // Users Activities
+
+            $arrayIdInt = [];
+            $randomNbActivities = random_int(1, 15);
+            for($i = 0; $i < $randomNbActivities; $i++){
+                $numb = random_int(1, 73);
+                while(in_array($numb, $arrayIdInt)){
+                    $numb = random_int(1, 73);
+                }
+                array_push($arrayIdInt, $numb);
+            }
+            foreach($arrayIdInt as $idActivity){
+                UsersActivities::create([
+                    'idUser' => $usr->getAttribute('id'),
+                    'idActivity' => $idActivity
+                ]);
+            }
+            //Premium Filters
+            $chanceToHavePremiumFilter = random_int(1, 100);
+            if ($chanceToHavePremiumFilter < 30){
+                $rand1_5 = random_int(1, 5);
+                $arrayIds = [];
+                for($i = 0; $i < $rand1_5; $i++)
+                {
+                    $numb = random_int(1, 73);
+                    while(in_array($numb, $arrayIds)){
+                        $numb = random_int(1, 73);
+                    }
+                    array_push($arrayIds, $numb);
+                }
+
+                foreach($arrayIds as $id){
+                    $userPref = UsersPreferences::where('idUser', $id)->get()[0];
+                    UsersPrefsActivities::create([
+                        'idUserPref' => $userPref->getAttribute('id'),
+                        'idActivity' => $id
+                    ]);
+                }
+            }
         }
+        $adminUser = User::create([
+            'email' => 'admin@you-play.fr',
+            'name'  => 'admin',
+            'lastName' => 'YouPlay',
+            'password' => Hash::make('1234'),
+            'phoneNumber' => '0685478548',
+            'gender' => 'Homme',
+            'city' => 'Strasbourg',
+            'age' => '90'
+        ]);
+
+        UsersPreferences::create([
+            'musicStyles' => 'Rock',
+            'redFlags' => 'Fornite',
+            'languages' => 'Français',
+            'genderPref' => 'Femme',
+            'distancePref' => '50',
+            'idUser' => $adminUser->id
+        ]);
+
+        AdminUsers::create([
+           'idUser' => $adminUser->id,
+           'grantedBy' => $adminUser->id
+        ]);
+        Subscriptions::create([
+            'idUser' => $adminUser->id,
+            'timestamp' => date("y-m-d H:i"),
+            'nextCost' => date("y-m-d H:i"),
+            'idAvantage' => 3
+        ]);
     }
 }

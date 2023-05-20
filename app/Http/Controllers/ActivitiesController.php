@@ -7,6 +7,7 @@ use App\Models\ActivitiesType;
 use App\Models\Consoles;
 use App\Models\Jeux;
 use App\Models\MoviesType;
+use App\Models\Plateformes;
 use App\Models\Sorties;
 use App\Models\Sports;
 use Illuminate\Http\JsonResponse;
@@ -28,6 +29,12 @@ class ActivitiesController extends Controller
      *      summary="Get list of Activities",
      *      description="Returns list of Activities",
      *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="type",
+     *         in="query",
+     *         description="type of the activity",
+     *         required=false,
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="successful operation",
@@ -41,10 +48,54 @@ class ActivitiesController extends Controller
      *
      * Returns list of Activities
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $activities = Activities::all();
-        return $this->sendResponse($activities, "List found");
+        $activityType = null;
+        if($request->get('type') != null){
+            $activityType = $request->get('type');
+            $activities = Activities::where('type', $activityType)->get();
+            $returnsData = [];
+            if($activityType == 1){
+                foreach ($activities as $activity){
+                    $movieType = MoviesType::where('id', $activity->idMovieType)->get()[0];
+                    array_push($returnsData, [$activity, $movieType]);
+                }
+            }
+            else if($activityType == 2){
+                foreach ($activities as $activity) {
+                    $sport = Sports::where('id', $activity->idSport)->get()[0];
+                    array_push($returnsData, [$activity, $sport]);
+                }
+            }
+            else if($activityType == 3) {
+                foreach ($activities as $activity) {
+                    $jeux = Jeux::where('id', $activity->idJeux)->get()[0];
+                    $plateforme = Plateformes::where('id', $jeux->idPlateforme)->get();
+                    $console = Consoles::where('id', $jeux->idConsole)->get();
+                    array_push($returnsData, [$activity, [$jeux, $plateforme, $console]]);
+                }
+            }
+            else if($activityType == 4){
+                foreach ($activities as $activity) {
+                    $jeux = Jeux::where('id', $activity->idJeux)->get()[0];
+                    array_push($returnsData, [$activity, $jeux]);
+                }
+            }
+            else if($activityType == 5 || $activityType == 6){
+                foreach ($activities as $activity) {
+                    $sortie = Sorties::where('id', $activity->idSortie)->get()[0];
+                    array_push($returnsData, [$activity, $sortie]);
+                }
+            }
+            else{
+                $this->sendError('No object from type '.$activityType.' was found');
+            }
+            return $this->sendResponse($returnsData, "Data's found");
+        }
+        else{
+            $activities = Activities::all();
+            return $this->sendResponse($activities, "List found");
+        }
     }
 
     /**
