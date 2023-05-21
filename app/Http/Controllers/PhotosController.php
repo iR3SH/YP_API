@@ -152,8 +152,6 @@ class PhotosController extends Controller
             $data = [
                 'fileName' => $newImageName,
                 'position' => $position,
-                'length' => "2",
-                'hash' => " ",
                 'idUser' => $request->get('idUser'),
             ];
             $photos = Photos::create($data);
