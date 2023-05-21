@@ -841,6 +841,71 @@
                 ]
             }
         },
+        "/api/changePassword/{id}": {
+            "patch": {
+                "tags": [
+                    "changePassword"
+                ],
+                "summary": "Update password for a specified User",
+                "description": "Returns the User with changed password",
+                "operationId": "changePassword",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id from the current User",
+                        "required": true
+                    },
+                    {
+                        "name": "lastPassword",
+                        "in": "query",
+                        "description": "lastPassword from the current User",
+                        "required": true
+                    },
+                    {
+                        "name": "password",
+                        "in": "query",
+                        "description": "password from the current User",
+                        "required": true
+                    },
+                    {
+                        "name": "confirmPassword",
+                        "in": "query",
+                        "description": "confirmPassword from the current User",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "integer",
+                                            "example": "200"
+                                        },
+                                        "data": {
+                                            "type": "object"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer_token": []
+                    }
+                ]
+            }
+        },
         "/api/conversations": {
             "get": {
                 "tags": [

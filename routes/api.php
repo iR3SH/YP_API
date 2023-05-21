@@ -7,6 +7,7 @@ use App\Http\Controllers\AvantagesController;
 use App\Http\Controllers\BannedUsersController;
 use App\Http\Controllers\BlockedUsersController;
 use App\Http\Controllers\BuyLogsController;
+use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\ConsolesController;
 use App\Http\Controllers\ConversationsController;
 use App\Http\Controllers\DislikesController;
@@ -61,6 +62,7 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::resource('bannedUsers', BannedUsersController::class);
     Route::resource('blockedUsers', BlockedUsersController::class);
     Route::resource('buyLogs', BuyLogsController::class);
+    Route::resource('changePassword', ChangePasswordController::class);
     Route::resource('consoles', ConsolesController::class);
     Route::resource('conversations', ConversationsController::class);
     Route::resource('dislikes', DislikesController::class);

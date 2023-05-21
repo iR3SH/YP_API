@@ -272,14 +272,9 @@ class UserController extends Controller
         $request->validate([
             'email' => 'required|unique:users',
             'phoneNumber' => 'required|unique:users',
-            'password' => 'required',
             'superLikeCount' => 'required'
         ]);
-        $inputs = $request->all();
-        if(!Hash::check($user->getAttribute('password'), Hash::make($request->get('password')))) {
-            $inputs['password'] = Hash::make($request->get('password'));
-        }
-        $user->update($inputs);
+        $user->update($request->all());
 
         return $this->sendResponse($user, "User updated successfully");
     }
