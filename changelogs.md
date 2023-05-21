@@ -1,3 +1,7 @@
+**21/05/2023**
+- Adding changePassword controller
+- Fix PhotosController
+
 **17/05/2023**
 - Adding AdminUser in DatabaseSeeder
 - simpleSearch Algo. v2.1 -> Adding default list when user doesn't registered activities
