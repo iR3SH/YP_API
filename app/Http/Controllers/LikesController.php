@@ -23,6 +23,18 @@ class LikesController extends Controller
      *      summary="Get list of Likes",
      *      description="Returns list of Likes",
      *      security={{ "bearer_token": {} }},
+     *      @OA\Parameter(
+     *         name="idUserWhoLiked",
+     *         in="query",
+     *         description="id of the User who Liked",
+     *         required=false,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idUserWhoBeLiked",
+     *         in="query",
+     *         description="id of the User who be Liked",
+     *         required=false,
+     *      ),
      *      @OA\Response(
      *          response=200,
      *          description="successful operation",
@@ -36,10 +48,21 @@ class LikesController extends Controller
      *
      * Returns list of Likes
      */
-    public function index(): JsonResponse
+    public function index(Request $request): JsonResponse
     {
-        $likes = Likes::all();
-        return $this->sendResponse($likes, "Done Successfully");
+        if($request->get('idUserWhoLiked') != null && $request->get('idUserWhoBeLiked') != null){
+            $like = Likes::where('idUserWhoLiked', $request->get('idUserWhoLiked'))->where('idUserWhoBeLiked', $request->get('idUserWhoBeLiked'))->get();
+            return $this->sendResponse($like, "Likes found");
+        }
+        else if($request->get('idUserWhoLiked') != null && $request->get('idUserWhoBeLiked') == null){
+            $like = Likes::where('idUserWhoLiked', $request->get('idUserWhoLiked'))->get();
+            $like += Likes::where('idUserWhoBeLiked', $request->get('idUserWhoLiked'))->get();
+            return $this->sendResponse($like, "Likes found");
+        }
+        else{
+            $likes = Likes::all();
+            return $this->sendResponse($likes, "Done Successfully");
+        }
     }
 
     /**
@@ -146,6 +169,7 @@ class LikesController extends Controller
      */
     public function show(Likes $like): JsonResponse
     {
+
         return $this->sendResponse($like, "Showed Successfully");
     }
 

@@ -1294,6 +1294,20 @@
                 "summary": "Get list of Likes",
                 "description": "Returns list of Likes",
                 "operationId": "indexLikes",
+                "parameters": [
+                    {
+                        "name": "idUserWhoLiked",
+                        "in": "query",
+                        "description": "id of the User who Liked",
+                        "required": false
+                    },
+                    {
+                        "name": "idUserWhoBeLiked",
+                        "in": "query",
+                        "description": "id of the User who be Liked",
+                        "required": false
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "successful operation",
