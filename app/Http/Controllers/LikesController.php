@@ -59,6 +59,10 @@ class LikesController extends Controller
             $like += Likes::where('idUserWhoBeLiked', $request->get('idUserWhoLiked'))->get();
             return $this->sendResponse($like, "Likes found");
         }
+        else if($request->get('idUserWhoLiked') == null && $request->get('idUserWhoBeLiked') != null){
+            $like = Likes::where('idUserWhoBeLiked', $request->get('idUserWhoBeLiked'))->get();
+            return $this->sendResponse($like, "Likes found");
+        }
         else{
             $likes = Likes::all();
             return $this->sendResponse($likes, "Done Successfully");
