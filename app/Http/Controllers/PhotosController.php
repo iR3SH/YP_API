@@ -126,17 +126,19 @@ class PhotosController extends Controller
 
         // Vérification qu'il n'y a pas d'image portant le même nom
         while ($tchek == false) {
-            $testName = Hash::make(basename($image->path()));
+            $testName = Hash::make(basename($image->path()).$request->get('idUser'));
+            $testName = str_replace('.', '', $testName);
+            $testName = str_replace('/', '', $testName);
+            $testName = str_replace('$', '', $testName);
             $newImageName = $testName .'.'. $image->extension();
             $tchekDoubleName = Photos::where('fileName', $newImageName)->get();
             if (count($tchekDoubleName) < 1 || $tchekDoubleName == null) {
                 $tchek = true;
             }
         }
-
         $position = 1;
 
-        $image->storeAs('users', $newImageName, 'public');
+        $image->move(storage_path().'/app/public/users', $newImageName);
 
         // Vérification si l'user à déjà upload d'autres images pour la position
         if ($imageUser != null) {
@@ -155,14 +157,14 @@ class PhotosController extends Controller
                 'idUser' => $request->get('idUser'),
             ];
             $photos = Photos::create($data);
-            return $this->sendResponse("Success", 'Pictures created successfully.');
+            return $this->sendResponse($photos, 'Pictures created successfully.');
         }
         else {
             unlink(public_path().'\\storage\\users\\'.$oldImage->fileName);
             $oldImage->fileName = $newImageName;
 
             $oldImage->save();
-            return $this->sendResponse("Success", 'Pictures changed successfully.');
+            return $this->sendResponse($oldImage, 'Pictures changed successfully.');
         }
     }
 
