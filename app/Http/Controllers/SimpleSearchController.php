@@ -76,9 +76,11 @@ class SimpleSearchController extends Controller
                 {
                     foreach ($allUsers as $users) {
                         $score = 0;
-                        if($userPref->getAttribute('genderPref') == $users->getAttribute('gender')) {
-                            $score += $this->getBonusFromPremiumUser($users);
-                            $finalDic += [$users->getAttribute('id') => $score];
+                        if($this->canBeSearched($users, $user)) {
+                            if ($userPref->getAttribute('genderPref') == $users->getAttribute('gender')) {
+                                $score += $this->getBonusFromPremiumUser($users);
+                                $finalDic += [$users->getAttribute('id') => $score];
+                            }
                         }
                     }
                 }
