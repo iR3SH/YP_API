@@ -25,7 +25,7 @@ class SimpleSearchController extends Controller
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
      *         name="idUser",
-     *         in="query",
+     *         in="path",
      *         description="id from the current User",
      *         required=true,
      *      ),
@@ -86,9 +86,11 @@ class SimpleSearchController extends Controller
                     arsort($finalDic);
                     $count = 0;
                     $dicToSend =  [];
+
                     foreach ($finalDic as $key => $value){
                         if($count < 10){
-                            array_push($dicToSend, [$key => $value]);
+                            $userToPush = User::where('id', $key)->get()[0];
+                            array_push($dicToSend, $userToPush);
                             $count++;
                         }
                         else{

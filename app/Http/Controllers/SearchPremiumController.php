@@ -55,7 +55,7 @@ class SearchPremiumController extends Controller
             }
             $currentUserAct = UsersActivities::where('idUser', $currentUser->id)->get();
             $allUsers = $this->getUserByPremiumFilter($currentUser);
-
+            $userToPush = [];
             if(count($allUsers) > 0){
                 foreach($allUsers as $key => $value){
                     $userToCheck = User::where('id', array_keys($value)[0])->get()[0];
@@ -72,9 +72,13 @@ class SearchPremiumController extends Controller
                     foreach ($value as $keys => $values){
                         array_replace($allUsers[$key],  [$keys => $values + $score]);
                     }
+                    foreach ($value as $keys => $values){
+                        $usertosearch = User::where('id', $keys)->get()[0];
+                        array_push($userToPush, $usertosearch);
+                    }
                 }
             }
-            return $this->sendResponse($allUsers, "Users Found by PremiumFilter");
+            return $this->sendResponse($userToPush, "Users Found by PremiumFilter");
         }
         catch (\Exception $ex){
             return $this->sendError("Fatal Error");
