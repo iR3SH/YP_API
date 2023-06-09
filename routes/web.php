@@ -40,6 +40,21 @@ Route::get('/api/public/{filename}', function($filename){
 
     return $response;
 });
+Route::get('/api/public/users/{filename}', function($filename){
+    $path = storage_path() . '/app/public/' . $filename;
+
+    if(!File::exists($path)) {
+        return response()->json(['message' => 'Image not found.'], 404);
+    }
+
+    $file = File::get($path);
+    $type = File::mimeType($path);
+
+    $response = Response::make($file, 200);
+    $response->header("Content-Type", $type);
+
+    return $response;
+});
 /*
  * POST Routes
  */
