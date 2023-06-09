@@ -208,8 +208,10 @@ class UserController extends Controller
         $Usersactivities = UsersActivities::where('idUser', $user->id)->get();
         $activities = [];
         foreach($Usersactivities as $uactivity){
-            $acti = Activities::where('id', $uactivity->idActivity)->get()[0];
-            array_push($activities, $acti);
+            $acti = Activities::where('id', $uactivity->idActivity)->get();
+            if(count($acti) > 0) {
+                array_push($activities, $acti);
+            }
         }
         $returnsData = $this->GetUserActivities($activities);
         array_push($array, $returnsData);
