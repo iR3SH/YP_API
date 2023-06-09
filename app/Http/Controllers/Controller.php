@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activities;
 use App\Models\AdminUsers;
 use App\Models\BannedUsers;
 use App\Models\BlockedUsers;
@@ -260,7 +261,7 @@ class Controller extends BaseController
     public function GetUserActivities($activities): array
     {
         $returnsData =  [];
-        if(count($activities) > 0 && $activities != null) {
+        if(count($activities) > 0 && $activities != null && gettype($activities) == gettype(new Activities())) {
             foreach ($activities as $activity) {
                 $activity_to_push = [];
                 $tag = null;
