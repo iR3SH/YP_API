@@ -2760,7 +2760,7 @@
                 "parameters": [
                     {
                         "name": "idUser",
-                        "in": "path",
+                        "in": "query",
                         "description": "id from the current User",
                         "required": true
                     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activities;
 use App\Models\User;
 use App\Models\UsersActivities;
 use App\Models\UsersPreferences;
@@ -25,7 +26,7 @@ class SimpleSearchController extends Controller
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
      *         name="idUser",
-     *         in="path",
+     *         in="query",
      *         description="id from the current User",
      *         required=true,
      *      ),
@@ -92,7 +93,22 @@ class SimpleSearchController extends Controller
                     foreach ($finalDic as $key => $value){
                         if($count < 10){
                             $userToPush = User::where('id', $key)->get()[0];
-                            array_push($dicToSend, $userToPush);
+                            $Uactivies = UsersActivities::where('idUser', $userToPush->id)->get();
+                            $activities = [];
+                            if(count($Uactivies) > 0)
+                            {
+                                foreach ($Uactivies as $uactivity) {
+                                    $act = Activities::where('id',$uactivity->idActivity)->get()[0];
+                                    array_push($activities, $act);
+                                }
+                            }
+                            $activities_topush = $this->GetUserActivities($activities);
+                            if($activities_topush != null) {
+                                array_push($dicToSend, [$userToPush, $activities_topush]);
+                            }
+                            else {
+                                array_push($dicToSend, $userToPush);
+                            }
                             $count++;
                         }
                         else{
@@ -105,7 +121,7 @@ class SimpleSearchController extends Controller
             return $this->sendError("No other user has be found");
         }
         catch (\Exception $ex){
-            return $this->sendError("Fatal Error");
+            return $this->sendError("Fatal Error", [ $ex->getMessage(), $ex->getTrace()]);
         }
     }
     public function create(): JsonResponse

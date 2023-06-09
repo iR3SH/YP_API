@@ -61,45 +61,7 @@ class ActivitiesController extends Controller
         else {
             $activities = Activities::all();
         }
-        foreach ($activities as $activity) {
-            $tag = null;
-            $activity_to_push = [];
-            array_push($activity_to_push, ["idActivity" => $activity->id], ["idType" => $activity->type]);
-            switch ($activity->type) {
-                case 1:
-                    $movieType = MoviesType::where('id', $activity->idMovieType)->get()[0];
-                    array_push($activity_to_push, ["name" => $movieType->name]);
-                    break;
-                case 2:
-                    $sport = Sports::where('id', $activity->idSport)->get()[0];
-                    array_push($activity_to_push, ["name" => $sport->name]);
-                    break;
-                case 3:
-                    $jeux = Jeux::where('id', $activity->idJeux)->get()[0];
-                    $plateforme = Plateformes::where('id', $jeux->idPlateforme)->get()[0];
-                    $console = Consoles::where('id', $jeux->idConsole)->get()[0];
-                    array_push($activity_to_push, ["name" => $jeux->name]);
-                    break;
-                case 4 :
-                    $jeux = Jeux::where('id', $activity->idJeux)->get()[0];
-                    array_push($activity_to_push, ["name" => $jeux->name]);
-                    break;
-                case 5:
-                case 6:
-                    $sortie = Sorties::where('id', $activity->idSortie)->get()[0];
-                    array_push($activity_to_push, ["name" => $sortie->name]);
-                    break;
-                default:
-                    $this->sendError('No object from type ' . $activity->type . ' was found');
-                    break;
-            }
-            $tag = new TagsModel([
-                "id" => $activity_to_push[0]["idActivity"],
-                "type" => $activity_to_push[1]['idType'],
-                'name' => $activity_to_push[2]['name']
-            ]);
-            array_push($returnsData, $tag);
-        }
+        $returnsData = $this->GetUserActivities($activities);
         return $this->sendResponse($returnsData, "List found");
     }
 
