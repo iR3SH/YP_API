@@ -213,8 +213,10 @@ class UserController extends Controller
                 array_push($activities, $acti);
             }
         }
-        $returnsData = $this->GetUserActivities($activities);
-        array_push($array, $returnsData);
+        if(count($activities) > 0) {
+            $returnsData = $this->GetUserActivities($activities);
+            array_push($array, $returnsData);
+        }
         return $this->sendResponse($array, "User sent successfully");
     }
 
