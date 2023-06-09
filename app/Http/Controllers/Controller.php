@@ -261,7 +261,7 @@ class Controller extends BaseController
     public function GetUserActivities($activities): array
     {
         $returnsData =  [];
-        if(count($activities) > 0 && $activities != null && gettype($activities) == gettype(new Activities())) {
+        if(count($activities) > 0 && $activities != null) {
             foreach ($activities as $activity) {
                 $activity_to_push = [];
                 $tag = null;
