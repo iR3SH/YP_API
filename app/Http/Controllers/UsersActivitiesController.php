@@ -187,12 +187,18 @@ class UsersActivitiesController extends Controller
      *      operationId="destroyUsersActivities",
      *      tags={"UsersActivities"},
      *      summary="Delete a UsersActivities",
-     *      description="Returns list of UsersActivities",
+     *      description="Delete an UsersActivities",
      *      security={{ "bearer_token": {} }},
      *      @OA\Parameter(
-     *         name="id",
-     *         in="path",
+     *         name="idUser",
+     *         in="query",
      *         description="id of the User",
+     *         required=true,
+     *      ),
+     *      @OA\Parameter(
+     *         name="idActivity",
+     *         in="query",
+     *         description="id of the Activity",
      *         required=true,
      *      ),
      *      @OA\Response(
@@ -206,11 +212,22 @@ class UsersActivitiesController extends Controller
      *       )
      * )
      *
-     * Returns a UsersActivities
+     * Delete a UsersActivities
      */
-    public function destroy(UsersActivities $usersActivitie): JsonResponse
+    public function destroy(Request $request): JsonResponse
     {
-        $usersActivitie->delete();
-        return $this->sendResponse($usersActivitie, "User Activity deleted successfully");
+        $request->validate([
+           'idUser' => 'required',
+           'idActivity' => 'required'
+        ]);
+        $usersActivitie = UsersActivities::where('idUser', $request->get('idUser'))->where('idActivity', $request->get('idActivity'))->get();
+        if(count($usersActivitie) > 0) {
+            $usersActivitie[0]->delete();
+            return $this->sendResponse($usersActivitie, "User Activity deleted successfully");
+        }
+        else
+        {
+            return $this->sendError("User Activity not found");
+        }
     }
 }

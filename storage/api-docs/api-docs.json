@@ -2760,7 +2760,7 @@
                 "parameters": [
                     {
                         "name": "idUser",
-                        "in": "query",
+                        "in": "path",
                         "description": "id from the current User",
                         "required": true
                     }
@@ -3471,13 +3471,19 @@
                     "UsersActivities"
                 ],
                 "summary": "Delete a UsersActivities",
-                "description": "Returns list of UsersActivities",
+                "description": "Delete an UsersActivities",
                 "operationId": "destroyUsersActivities",
                 "parameters": [
                     {
-                        "name": "id",
-                        "in": "path",
+                        "name": "idUser",
+                        "in": "query",
                         "description": "id of the User",
+                        "required": true
+                    },
+                    {
+                        "name": "idActivity",
+                        "in": "query",
+                        "description": "id of the Activity",
                         "required": true
                     }
                 ],
