@@ -2,8 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Activities;
+use App\Models\Consoles;
+use App\Models\Jeux;
+use App\Models\MoviesType;
 use App\Models\Photos;
+use App\Models\Plateformes;
+use App\Models\Sorties;
+use App\Models\Sports;
+use App\Models\TagsModel;
 use App\Models\User;
+use App\Models\UsersActivities;
 use App\Models\UsersPreferences;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -196,6 +205,54 @@ class UserController extends Controller
     {
         $photos = Photos::where('idUser', $user->id)->get();
         $array = [$user, $photos];
+        $Usersactivities = UsersActivities::where('idUser', $user->id)->get();
+        $activities = [];
+        foreach($Usersactivities as $uactivity){
+            $acti = Activities::where('id', $uactivity->idActivity)->get()[0];
+            array_push($activities, $acti);
+        }
+        $returnsData = [];
+        foreach ($activities as $activity) {
+            $activity_to_push = [];
+            $tag = null;
+            array_push($activity_to_push, ["idActivity" => $activity->id], ["idType" => $activity->type]);
+            switch ($activity->type) {
+                case 1:
+                    $movieType = MoviesType::where('id', $activity->idMovieType)->get()[0];
+                    array_push($activity_to_push, ["name" => $movieType->name]);
+                    break;
+                case 2:
+                    $sport = Sports::where('id', $activity->idSport)->get()[0];
+                    array_push($activity_to_push, ["name" => $sport->name]);
+                    break;
+                case 3:
+                    $jeux = Jeux::where('id', $activity->idJeux)->get()[0];
+                    $plateforme = Plateformes::where('id', $jeux->idPlateforme)->get()[0];
+                    $console = Consoles::where('id', $jeux->idConsole)->get()[0];
+                    array_push($activity_to_push, ["name" => $jeux->name]);
+                    break;
+                case 4 :
+                    $jeux = Jeux::where('id', $activity->idJeux)->get()[0];
+                    array_push($activity_to_push, ["name" => $jeux->name]);
+                    break;
+                case 5:
+                case 6:
+                    $sortie = Sorties::where('id', $activity->idSortie)->get()[0];
+                    array_push($activity_to_push, ["name" => $sortie->name]);
+                    break;
+                default:
+                    $this->sendError('No object from type ' . $activity->type . ' was found');
+                    break;
+            }
+            //array_push($array, $activity_to_push);
+            $tag = new TagsModel([
+                "id" => $activity_to_push[0]["idActivity"],
+                "type" => $activity_to_push[1]['idType'],
+                'name' => $activity_to_push[2]['name']
+            ]);
+
+            array_push($array, $tag);
+        }
         return $this->sendResponse($array, "User sent successfully");
     }
 
