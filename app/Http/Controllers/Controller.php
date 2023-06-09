@@ -258,10 +258,10 @@ class Controller extends BaseController
         $adminCheck = AdminUsers::where('idUser', $idUser)->get();
         return count($adminCheck) == 0;
     }
-    public function GetUserActivities($activities): array
+    public function GetUserActivities(array $activities): array
     {
         $returnsData =  [];
-        if(count($activities) > 0 && $activities != null && gettype($activities) == gettype(new Activities())) {
+        if(count($activities) > 0 && $activities != null) {
             foreach ($activities as $activity) {
                 $activity_to_push = [];
                 $tag = null;

@@ -210,7 +210,7 @@ class UserController extends Controller
         foreach($Usersactivities as $uactivity){
             $acti = Activities::where('id', $uactivity->idActivity)->get();
             if(count($acti) > 0) {
-                array_push($activities, $acti);
+                array_push($activities, $acti[0]);
             }
         }
         if(count($activities) > 0) {

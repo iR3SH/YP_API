@@ -52,14 +52,22 @@ class ActivitiesController extends Controller
     public function index(Request $request): JsonResponse
     {
         $activityType = null;
-        $activities = null;
+        $activities = [];
         $returnsData = [];
         if($request->get('type') != null){
             $activityType = $request->get('type');
-            $activities = Activities::where('type', $activityType)->get();
+            $activitis = Activities::where('type', $activityType)->get();
+            for($i = 0; $i < count($activitis); $i++)
+            {
+                array_push($activities, $activitis[$i]);
+            }
         }
         else {
-            $activities = Activities::all();
+            $activitis = Activities::all();
+            for($i = 0; $i < count($activitis); $i++)
+            {
+                array_push($activities, $activitis[$i]);
+            }
         }
         $returnsData = $this->GetUserActivities($activities);
         return $this->sendResponse($returnsData, "List found");
