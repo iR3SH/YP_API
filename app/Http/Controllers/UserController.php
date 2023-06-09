@@ -251,8 +251,9 @@ class UserController extends Controller
                 'name' => $activity_to_push[2]['name']
             ]);
 
-            array_push($array, $tag);
+            array_push($returnsData, $tag);
         }
+        array_push($array, $returnsData);
         return $this->sendResponse($array, "User sent successfully");
     }
 

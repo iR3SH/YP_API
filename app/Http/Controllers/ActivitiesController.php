@@ -62,8 +62,8 @@ class ActivitiesController extends Controller
             $activities = Activities::all();
         }
         foreach ($activities as $activity) {
-            $activity_to_push = [];
             $tag = null;
+            $activity_to_push = [];
             array_push($activity_to_push, ["idActivity" => $activity->id], ["idType" => $activity->type]);
             switch ($activity->type) {
                 case 1:
