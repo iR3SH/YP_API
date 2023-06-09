@@ -51,51 +51,49 @@ class ActivitiesController extends Controller
     public function index(Request $request): JsonResponse
     {
         $activityType = null;
+        $activities = null;
+        $returnsData = [];
         if($request->get('type') != null){
             $activityType = $request->get('type');
             $activities = Activities::where('type', $activityType)->get();
-            $returnsData = [];
-            if($activityType == 1){
-                foreach ($activities as $activity){
-                    $movieType = MoviesType::where('id', $activity->idMovieType)->get()[0];
-                    array_push($returnsData, [$activity, $movieType]);
-                }
-            }
-            else if($activityType == 2){
-                foreach ($activities as $activity) {
-                    $sport = Sports::where('id', $activity->idSport)->get()[0];
-                    array_push($returnsData, [$activity, $sport]);
-                }
-            }
-            else if($activityType == 3) {
-                foreach ($activities as $activity) {
-                    $jeux = Jeux::where('id', $activity->idJeux)->get()[0];
-                    $plateforme = Plateformes::where('id', $jeux->idPlateforme)->get();
-                    $console = Consoles::where('id', $jeux->idConsole)->get();
-                    array_push($returnsData, [$activity, [$jeux, $plateforme, $console]]);
-                }
-            }
-            else if($activityType == 4){
-                foreach ($activities as $activity) {
-                    $jeux = Jeux::where('id', $activity->idJeux)->get()[0];
-                    array_push($returnsData, [$activity, $jeux]);
-                }
-            }
-            else if($activityType == 5 || $activityType == 6){
-                foreach ($activities as $activity) {
-                    $sortie = Sorties::where('id', $activity->idSortie)->get()[0];
-                    array_push($returnsData, [$activity, $sortie]);
-                }
-            }
-            else{
-                $this->sendError('No object from type '.$activityType.' was found');
-            }
-            return $this->sendResponse($returnsData, "Data's found");
         }
-        else{
+        else {
             $activities = Activities::all();
-            return $this->sendResponse($activities, "List found");
         }
+        foreach ($activities as $activity) {
+            $activity_to_push = [];
+            array_push($activity_to_push, $activity->id, $activity->type);
+            switch ($activity->type) {
+                case 1:
+                    $movieType = MoviesType::where('id', $activity->idMovieType)->get()[0];
+                    array_push($activity_to_push, $movieType->name);
+                    break;
+                case 2:
+                    $sport = Sports::where('id', $activity->idSport)->get()[0];
+                    array_push($activity_to_push, $sport->name);
+                    break;
+                case 3:
+                    $jeux = Jeux::where('id', $activity->idJeux)->get()[0];
+                    $plateforme = Plateformes::where('id', $jeux->idPlateforme)->get()[0];
+                    $console = Consoles::where('id', $jeux->idConsole)->get()[0];
+                    array_push($activity_to_push, $jeux->name, $plateforme->name, $console->name);
+                    break;
+                case 4 :
+                    $jeux = Jeux::where('id', $activity->idJeux)->get()[0];
+                    array_push($activity_to_push, $jeux->name);
+                    break;
+                case 5:
+                case 6:
+                    $sortie = Sorties::where('id', $activity->idSortie)->get()[0];
+                    array_push($activity_to_push, $sortie->name);
+                    break;
+                default:
+                    $this->sendError('No object from type ' . $activity->type . ' was found');
+                    break;
+            }
+            array_push($returnsData, $activity_to_push);
+        }
+        return $this->sendResponse($returnsData, "List found");
     }
 
     /**
